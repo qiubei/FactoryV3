@@ -1,0 +1,6 @@
+framework module NaptimeBLE {
+  umbrella header "NaptimeBLE-umbrella.h"
+
+  export *
+  module * { export * }
+}

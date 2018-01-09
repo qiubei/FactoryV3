@@ -1,0 +1,12 @@
+platform :ios, '9.0'
+use_frameworks!
+
+target 'V3' do
+	pod 'SVProgressHUD'
+	pod 'NaptimeBLE', :git => "git@github.com:EnterTech/Naptime-BLE-iOS.git", :branch => "master"
+    pod 'RxBluetoothKit', '~> 4.0'
+    pod 'PromiseKit', '~> 4.5'
+    pod 'SwiftyTimer'
+    pod 'SVProgressHUD'
+    pod 'SwiftyUserDefaults'
+end

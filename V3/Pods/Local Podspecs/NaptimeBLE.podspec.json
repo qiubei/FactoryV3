@@ -1,0 +1,27 @@
+{
+  "name": "NaptimeBLE",
+  "version": "0.1.0",
+  "summary": "Naptime BLE 通信库",
+  "description": "Naptime BLE 通信库",
+  "homepage": "https://github.com/EnterTech",
+  "authors": {
+    "HyanCat": "hyancat@live.cn"
+  },
+  "license": "LICENSE",
+  "source": {
+    "git": "git@github.com:EnterTech/Naptime-BLE-iOS.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "NaptimeBLE/**/*.swift",
+  "dependencies": {
+    "PromiseKit": [
+
+    ],
+    "RxBluetoothKit": [
+
+    ]
+  }
+}
