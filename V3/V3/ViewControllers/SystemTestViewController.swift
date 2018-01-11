@@ -11,6 +11,7 @@ import RxBluetoothKit
 import RxSwift
 import NaptimeBLE
 import SVProgressHUD
+import PromiseKit
 
 class SystemTestViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
@@ -29,7 +30,6 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
     @IBOutlet weak var restartButton: UIButton!
     @IBOutlet weak var devicesTableview: UITableView!
     @IBOutlet weak var tableView: UITableView!
-    private var isCompleted = false
     @IBAction func restartAction(_ sender: UIButton) {
         self.manager.deleteBoardUserId().then { [weak self]() -> () in
             guard let `self` = self else { return }
@@ -55,9 +55,39 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
         self.loadData()
     }
 
-    private var hasAppConfigureDataTestPass = false
-    private var hasSNCodeTestPass = false
-    private var hasDeleteUesrIDTestPass = false
+    private var hasAppConfigurationSuccessed = false
+    // MARK: private
+    private func stateNotify() {
+        self.manager.state.asObservable()
+            .subscribe(onNext: {
+                let type = $0
+                switch type {
+                case .contactTestPass:
+                    dispatch_to_main {
+                        self.contactInfo = "通过"
+                        self.tableView.reloadData()
+                    }
+                    break
+                case .burnAppConfigurationPass:
+                    self.hasAppConfigurationSuccessed = true
+                    break
+                case .burnSnCodePass:
+                    if self.hasAppConfigurationSuccessed {
+                        dispatch_to_main {
+                            self.burnDeviceIDInfo = "通过"
+                            self.tableView.reloadData()
+                        }
+                    }
+                    break
+                case .deleteUserIDPass:
+                    dispatch_to_main {
+                        SVProgressHUD.showInfo(withStatus: "删除 User ID")
+                    }
+                    break
+                default: break
+                }
+            }).disposed(by: self._disposeBag)
+    }
 
     private func resetData() {
         self.batteryInfo = "未检测"
@@ -67,62 +97,25 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
     }
 
     private func loadData() {
-        Timer.after(1) {
-            self.burnDeviceNotify()
-            self.connectionNotify()
-            self.batteryInfoNotify()
-            self.contactInfoNotify()
+        self.manager.contactNotify()
+        self.manager.burnDeviceNotify()
+        self.connectionNotify()
+        self.batteryInfoNotify()
+        self.stateNotify()
+        self.startSample().then { () -> () in
+            print("----00000----")
         }
     }
-    // 设置板子监听
-    func burnDeviceNotify() {
-        self.manager.connector?.commandService?.notify(characteristic: Characteristic.Command.Notify.receive)
-            .subscribe (onNext: { [weak self] in
-                guard let `self` = self else { return }
-                print("tested_board - \(Date())-\($0)")
-                if let type = TestCommand.FixtureToolAssert(rawValue: $0.first!) {
-                    switch type {
-                    case TestCommand.FixtureToolAssert.AppConfiguration:
-                        var data = $0
-                        data.removeFirst(1)
-                        if V3.contains(self.manager.appConfigureData.copiedBytes, data) {
-                            self.hasAppConfigureDataTestPass = true
-                            if self.hasSNCodeTestPass {
-                                self.burnDeviceIDInfo = "通过"
-                            }
-                            print("--------app configuraiton success--------")
-                        }
-                        break
-                    case TestCommand.FixtureToolAssert.SN:
-                        var data = $0
-                        data.removeFirst(1)
-                        if V3.contains(self.manager.snCode.copiedBytes, data) {
-                            self.hasSNCodeTestPass = true
-                            if self.hasAppConfigureDataTestPass {
-                                self.burnDeviceIDInfo = "通过"
-                            }
-                            print("--------burn sn code success--------")
-                        }
-                        break
-                    case TestCommand.FixtureToolAssert.UserID:
-                        var data = $0
-                        data.removeFirst(1)
-                        if V3.contains(self.manager.defaultUserID, data) && self.hasAppConfigureDataTestPass && self.hasSNCodeTestPass {
-                            self.hasDeleteUesrIDTestPass = true
-                            print("--------burn success--------")
-                        }
-                        break
-                    default: break
-                    }
-                }
-            }).disposed(by: self._disposeBag)
-    }
+
+
+    private var eegNotifyDisposeBag: Disposable?
 
     private func connectionNotify() {
         self.manager.connector?.peripheral.rx_isConnected
             .subscribe(onNext: {
                 if !$0 {
-                    SVProgressHUD.showInfo(withStatus: "失败")
+                    SVProgressHUD.showInfo(withStatus: "设备连接中断")
+                    self.navigationController?.popViewController(animated: true)
                 }
             }).disposed(by: self._disposeBag)
     }
@@ -137,16 +130,6 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
                 self.batteryInfo = "失败"
                 SVProgressHUD.showInfo(withStatus: "电池测试失败")
         }
-    }
-
-    private func contactInfoNotify() {
-        self.manager.connector?.eegService?.notify(characteristic: .contact).subscribe(onNext: { [weak self] in
-            guard let `self` = self else { return }
-            if let _ = $0.first(where: {$0.hashValue == 0}) {
-                self.contactInfo = "通过"
-                self.tableView.reloadData()
-            }
-        }).disposed(by: self._disposeBag)
     }
 
     // tableview datesource method
@@ -188,6 +171,22 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
         tableView.deselectRow(at: indexPath, animated: true)
         if 2 == indexPath.row {
             self.performSegue(withIdentifier: "burnDeviceInfoID", sender: self)
+            self.stopSmaple().then(execute: { () -> () in
+            })
         }
+    }
+
+    // 开始采集
+    private func startSample() -> Promise<Void> {
+        return (self.manager.connector?.commandService?.write(data: Data(bytes: [TestCommand.BoardWriteType.startSample.rawValue]), to: Characteristic.Command.Write.send))!
+    }
+
+    // 停止采集
+    private func stopSmaple() -> Promise<Void> {
+        return (self.manager.connector?.commandService?.write(data: Data(bytes: [TestCommand.BoardWriteType.stopSample.rawValue]), to: Characteristic.Command.Write.send))!
+    }
+
+    deinit {
+        print("system test viewcontroller")
     }
 }

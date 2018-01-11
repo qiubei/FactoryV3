@@ -317,11 +317,11 @@
                                     <action selector="restartTest:" destination="GNI-cx-QYF" eventType="touchUpInside" id="vpM-pq-ddu"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5MF-YV-zpm">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="测试通过" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5MF-YV-zpm">
                                 <rect key="frame" x="0.0" y="586" width="414" height="56"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="36"/>
-                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                <color key="textColor" red="0.14436533700000001" green="0.61852692109999996" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -488,13 +488,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="请输入密码来修改配置项" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qNc-Zh-Os6">
-                                <rect key="frame" x="66" y="216" width="243" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" red="0.14436533700000001" green="0.61852692109999996" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dtK-Kd-vBq">
                                 <rect key="frame" x="42" y="115" width="330" height="44"/>
                                 <subviews>
@@ -619,10 +612,21 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                             </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请输入密码来修改配置项" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qNc-Zh-Os6">
+                                <rect key="frame" x="129" y="217" width="157.33333333333337" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="iuL-Zq-qbU"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.14436533700000001" green="0.61852692109999996" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="qNc-Zh-Os6" firstAttribute="top" secondItem="dtK-Kd-vBq" secondAttribute="bottom" constant="58" id="CSL-B8-mhm"/>
                             <constraint firstItem="dtK-Kd-vBq" firstAttribute="top" secondItem="Wjo-jl-1Fr" secondAttribute="top" constant="51" id="QiT-Nc-9mO"/>
+                            <constraint firstItem="qNc-Zh-Os6" firstAttribute="centerX" secondItem="Wjo-jl-1Fr" secondAttribute="centerX" id="YuQ-9d-SBJ"/>
                             <constraint firstItem="dtK-Kd-vBq" firstAttribute="leading" secondItem="Wjo-jl-1Fr" secondAttribute="leading" constant="42" id="wwz-3j-fcj"/>
                             <constraint firstItem="Wjo-jl-1Fr" firstAttribute="trailing" secondItem="dtK-Kd-vBq" secondAttribute="trailing" constant="42" id="ypq-Tc-tzM"/>
                         </constraints>

@@ -105,7 +105,7 @@ class SystemSelectDeviceViewController: UIViewController, UITableViewDataSource,
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableview.deselectRow(at: indexPath, animated: true)
         self.selectedPeripheral = self.devices[indexPath.row]
-//        SVProgressHUD.show()
+        SVProgressHUD.show()
         if self.devices.count >= 2 {
             self.swipControllerWith(peripheral: self.devices[indexPath.row])
         }
@@ -116,11 +116,10 @@ class SystemSelectDeviceViewController: UIViewController, UITableViewDataSource,
             return self.manager.connector!.handshake()
             }.then(execute: { () -> () in
                 dispatch_to_main {
-//                    SVProgressHUD.dismiss()
+                    SVProgressHUD.dismiss()
                     self.performSegue(withIdentifier: "systemResultID", sender: self)
                 }
-            })
-            .catch { (error) in
+            }).catch { (error) in
                 print(error)
         }
     }

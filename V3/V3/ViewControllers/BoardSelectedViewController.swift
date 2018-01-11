@@ -52,7 +52,7 @@ class BoardSelectedViewController: UIViewController, UITableViewDataSource, UITa
             .subscribe(onNext: { [weak self] in
                 guard let `self` = self else { return }
                 if let name = $0.peripheral.name {
-                    if name.contains("Nap") {
+                    if name.contains("NAP") {
                         self.peripherals.append($0.peripheral)
                         dispatch_to_main {
                             self.tableView.reloadData()

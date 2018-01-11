@@ -51,10 +51,9 @@ class BurnDeviceIDViewController: UIViewController, UITableViewDataSource, UITab
                     dispatch_to_main {
                         if self.hasBurnAppConfiguraitonSuccessed {
                             SVProgressHUD.showInfo(withStatus: "Device ID 烧入成功")
-                            self.navigationController?.popViewController(animated: true)
-                        }
-                        else {
-
+                            dispatch_after(1) {
+                                self.navigationController?.popViewController(animated: true)
+                            }
                         }
                     }
                 }

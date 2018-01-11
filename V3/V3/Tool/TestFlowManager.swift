@@ -27,7 +27,7 @@ public enum TestFlowState: String {
     case BoardConnectedApp     = "BoardConnectedApp"
     case BrainAnalysePass      = "BrainAnalysePass"
     case EggContactCheckPass   = "EggContactCheckPass"
-    case LEDShining            = "LEDShining"
+    case BoardConnectFixtool   = "BoardConnectFixtool"
     case LEDDeviceReply        = "LEDDeviceReply"
     case BurnIntoDevicedIDPass = "BurnIntoDevicedIDPass"
     case Completed             = "Completed"
@@ -127,31 +127,47 @@ class TestFlowManager {
 
     func stopTest() {
         self.stopCharging().then { () -> () in
+            guard let _ = self.testedBoardConnector else { return }
+            self.boardScanDisposeBag?.dispose()
+            self.boardPressDisposeBag?.dispose()
+            self.eegDisposeBag?.dispose()
+            self.contactDisposeBag?.dispose()
             self.testedBoard?.cancelConnection().subscribe().disposed(by: self._disposeBag)
-            self.testedBoard = nil
-            self.hasContactTested = false
-            self.hasBrainSampleTested = false
+//            self.testedBoard = nil
+//            self.hasContactTested = false
+//            self.hasBrainSampleTested = false
+            self.fixtoolDisposeBag?.dispose()
+            self.cleanUp()
         }
     }
 
     func cancelConnection() {
         self.fixtureToolConnector?.peripheral.cancelConnection().subscribe {
-            self.fixtureTool = nil
-            self.testedBoard = nil
-            self.fixtureToolConnector = nil
-            self.testedBoardConnector = nil
+            self.cleanUp()
         }.disposed(by: self._disposeBag)
     }
-
-    func restart() {
-        
-    }
-
+    
     func cleanUp() {
+//        self.fixtureTool = nil
+//        self.fixtureToolConnector = nil
+        self.testedBoard = nil
+        self.testedBoardConnector = nil
+
         self.state.value = .ReadyTest
         self.testedBoard = nil
-        self.hasContactTested = false
+        self.tempADV = [UInt8]()
         self.hasBrainSampleTested = false
+        self.currentBrainSmaples = [UInt8]()
+        self.contactSequence = [UInt8]()
+        self.hasContactTested = false
+
+        self.fixtoolDisposeBag = nil
+        self.boardScanDisposeBag = nil
+        self.boardPressDisposeBag = nil
+        self.eegDisposeBag = nil
+        self.contactDisposeBag = nil
+
+        self.setFixtureToolNotify()
     }
 
     // 停止采集
@@ -161,9 +177,12 @@ class TestFlowManager {
 
     private var tempADV = [UInt8]()
 
+
+    private var boardScanDisposeBag: Disposable?
+    private var fixtoolDisposeBag: Disposable?
     // 设置工装监听
     private func setFixtureToolNotify() {
-        self.fixtureToolConnector?.commandService?.notify(characteristic: Characteristic.Command.Notify.receive)
+        self.fixtoolDisposeBag = self.fixtureToolConnector?.commandService?.notify(characteristic: Characteristic.Command.Notify.receive)
             .subscribe (onNext: { [weak self] in
                 guard let `self` = self else { return }
 
@@ -182,19 +201,21 @@ class TestFlowManager {
                     case TestCommand.BoardAssert.chargedSuccess:
                         self.state.value = TestFlowState.BoardChargePass
 
+                        print("------(temp) -----\(self.tempADV.count)-------")
                         if self.tempADV.count > 0 {
-                            self.scan().subscribe { [weak self] in
+                            self.boardScanDisposeBag = self.scan().subscribe { [weak self] in
                                 guard let `self` = self else { return }
                                 if let mData = $0.element?.advertisementData.manufacturerData {
                                     print("mData - \(mData.copiedBytes)")
                                     var temp = mData
+                                    print("------\(temp) -----\(self.tempADV.count)-------")
                                     temp.removeFirst(2)
                                     let ADV = Data(bytes: self.tempADV)
                                     if temp == ADV {
                                         self.testedBoardConnector = Connector(peripheral: $0.element!.peripheral)
                                         self.connectWith(peripheral: $0.element!.peripheral)
                                     }
-                                }}.disposed( by: self._disposeBag)
+                                }}
                         }
                         break
                     case TestCommand.BoardAssert.chargeFail:
@@ -204,9 +225,9 @@ class TestFlowManager {
                         var testedBoardADV = $0
                         testedBoardADV.removeFirst(1)
                         self.tempADV = testedBoardADV
-
+                        print("-----------\(self.tempADV)-------")
                         if self.state.value == TestFlowState.BoardChargePass {
-                            self.scan().subscribe { [weak self] in
+                            self.boardScanDisposeBag = self.scan().subscribe { [weak self] in
                                 guard let `self` = self else { return }
                                 if let mData = $0.element?.advertisementData.manufacturerData {
                                     print("mData - \(mData.copiedBytes)")
@@ -217,22 +238,25 @@ class TestFlowManager {
                                         self.testedBoardConnector = Connector(peripheral: $0.element!.peripheral)
                                         self.connectWith(peripheral: $0.element!.peripheral)
                                     }
-                                }}.disposed( by: self._disposeBag)
+                                }}
                         }
+                        break
+                    case TestCommand.BoardAssert.boardConnectFixtool:
+                        self.state.value = TestFlowState.BoardConnectFixtool
+                        self.timer?.invalidate()
+                        self.timer = nil
+                        break
                     }
                 }
-            }).disposed(by: _disposeBag)
+            })
     }
 
-    private var hasAppConfigureDataTestPass = false
-    private var hasSNCodeTestPass = false
-    private var hasDeleteUesrIDTestPass = false
-
-
     private var boardCommandDispose: Disposable?
+
+    private var boardPressDisposeBag: Disposable?
     // 设置板子监听
     private func setBoardNotify() {
-        self.testedBoardConnector?.commandService?.notify(characteristic: Characteristic.Command.Notify.receive)
+        self.boardPressDisposeBag = self.testedBoardConnector?.commandService?.notify(characteristic: Characteristic.Command.Notify.receive)
             .subscribe (onNext: { [weak self] in
                 guard let `self` = self else { return }
                 print("tested_board - \(Date())-\($0)")
@@ -245,17 +269,20 @@ class TestFlowManager {
                     default: break
                     }
                 }
-            }).disposed(by: self._disposeBag)
+            })
     }
 
     private var currentBrainSmaples = [UInt8]()
     private var hasBrainSampleTested = false
 
+    private var eegDisposeBag: Disposable?
+    private var timer: Timer?
     // 设置单板监听。
     private func startEggSampleNotify() {
-        self.testedBoardConnector?.eegService!.notify(characteristic: Characteristic.EEG.Notify.data)
+        self.eegDisposeBag = self.testedBoardConnector?.eegService!.notify(characteristic: Characteristic.EEG.Notify.data)
             .subscribe (onNext: { [weak self] in
                 guard let `self` = self else { return }
+                print("egg sample thread ------- \(Thread.current)")
                 // ugly code
                 if self.currentBrainSmaples.count >= RAWBRAIN_SAMPLE_LENGTH {
                     if self.hasBrainSampleTested { return }
@@ -279,7 +306,7 @@ class TestFlowManager {
                     print("brain test pass .......")
                     self.startContactSignal().then(execute: { () -> () in
                         print("start contact singnal \(TestCommand.FixtureToolType.contactSingal.rawValue)")
-                        Timer.after(4) {
+                        self.timer = Timer.after(4) {
                             if !self.hasContactTested {
                                 self.hasContactTested = true
                                 // 使用 dispatch_after 有风险，block 执行不是在当前队列延迟操作的。
@@ -292,21 +319,22 @@ class TestFlowManager {
                     sample.removeFirst(2)
                     self.currentBrainSmaples.append(contentsOf: sample)
                 }
-            }).disposed(by: _disposeBag)
+            })
     }
 
     private var contactSequence = [UInt8]()
     private var hasContactTested = false
 
+    private var contactDisposeBag: Disposable?
 
     // 开始脱落检测监听
     private func startEggContactNotify() {
-        self.testedBoardConnector?.eegService!.notify(characteristic: Characteristic.EEG.Notify.contact)
+       self.contactDisposeBag = self.testedBoardConnector?.eegService!.notify(characteristic: Characteristic.EEG.Notify.contact)
             .subscribe (onNext: { [weak self] in
                 guard let `self` = self else { return }
                 print("tested_board: egg contact \(Date())-\($0)")
                 self.contactSequence.append(contentsOf: $0)
-            }).disposed(by: _disposeBag)
+            })
     }
 
     // 监听工装是否断开
@@ -333,20 +361,19 @@ class TestFlowManager {
 
     // 脱落检测测试
     private func contactTest() {
-        if contains(self.contactSequence, [8, 16, 24]) {
-            self.state.value = TestFlowState.EggContactCheckPass
-            self.stopSmaple().then(execute: { () -> () in
-                self.startBoardLEDTest().then(execute: { ()->(Void) in
-                    self.state.value = TestFlowState.LEDShining
-                }).catch(execute: { (error) in
-                    print(error)
+        self.stopSmaple().then(execute: { () -> () in
+            self.startBoardLEDTest().then(execute: { ()->(Void) in
+                if contains(self.contactSequence, [8, 16, 24]) {
+                    self.state.value = TestFlowState.EggContactCheckPass
+                } else {
                     self.state.value = TestFlowState.TestFail
-                })
-            }).catch(execute: {(error) in
+                }
+            }).catch(execute: { (error) in
                 print(error)
+                self.state.value = TestFlowState.TestFail
             })
-        } else {
-            self.state.value = TestFlowState.TestFail
-        }
+        }).catch(execute: {(error) in
+            print(error)
+        })
     }
 }

@@ -9,7 +9,7 @@
 import UIKit
 import SwiftyUserDefaults
 
-typealias EmptyBlock = (_ textField: UITextField) -> Void
+typealias TextFieldBlock = (_ textField: UITextField) -> Void
 
 class BoardConfigurationViewController: UITableViewController {
 
@@ -74,8 +74,13 @@ class BoardConfigurationViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.row == 4 {
-            self.addDatePickerView()
+            if self.datePicker == nil {
+                self.addDatePickerView()
+            } else {
+                self.datePicker?.isHidden = false
+            }
         } else {
+            self.datePicker?.isHidden = true
             self.addAlertSheet(title: self.configurationTitleItems[indexPath.row], self.hardwareVersion) { (textField) in
                 self.configurationDataIterms[indexPath.row] = textField.text!
                 tableView.reloadData()
@@ -83,7 +88,7 @@ class BoardConfigurationViewController: UITableViewController {
         }
     }
 
-    private func addAlertSheet(title: String,_ placeHolder: String, block: @escaping EmptyBlock) {
+    private func addAlertSheet(title: String,_ placeHolder: String, block: @escaping TextFieldBlock) {
         var _textField: UITextField?
         let alertController = UIAlertController(title: title, message: nil, preferredStyle: .alert)
         alertController.addTextField { (textField) in
@@ -100,14 +105,15 @@ class BoardConfigurationViewController: UITableViewController {
         self.present(alertController, animated: true, completion: nil)
     }
 
+    private var datePicker: UIDatePicker?
     private func addDatePickerView() {
         let height = self.view.bounds.height * 0.35
         let frame = CGRect(x: 0, y: self.view.bounds.height - height, width: self.view.bounds.width, height: height)
-        let datePicker = UIDatePicker(frame: frame)
-        datePicker.datePickerMode = .date
-        datePicker.locale = Locale(identifier: "zh_CN")
-        datePicker.addTarget(self, action: #selector(self.dateValueChange(datePicker:)), for: .valueChanged)
-        self.view.addSubview(datePicker)
+        self.datePicker = UIDatePicker(frame: frame)
+        self.datePicker!.datePickerMode = .date
+        self.datePicker!.locale = Locale(identifier: "zh_CN")
+        self.datePicker!.addTarget(self, action: #selector(self.dateValueChange(datePicker:)), for: .valueChanged)
+        self.view.addSubview(datePicker!)
     }
 
     @objc private func dateValueChange(datePicker: UIDatePicker){
