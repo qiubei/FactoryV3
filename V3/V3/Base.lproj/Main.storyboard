@@ -248,7 +248,7 @@
                                 <rect key="frame" x="0.0" y="64" width="414" height="518"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                             </tableView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="测试通过" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xiq-pe-mXf">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="测试通过" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xiq-pe-mXf">
                                 <rect key="frame" x="0.0" y="582" width="414" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="GnY-Z7-X5k"/>
@@ -295,31 +295,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="Pvd-az-gtO">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="586"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="642"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q4P-JS-Y9i">
-                                <rect key="frame" x="16" y="642" width="382" height="48"/>
-                                <color key="backgroundColor" red="0.14436533700000001" green="0.61852692109999996" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="48" id="ld2-ps-Rwn"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <state key="normal" title="结束测试">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="5"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="restartTest:" destination="GNI-cx-QYF" eventType="touchUpInside" id="vpM-pq-ddu"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="测试通过" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5MF-YV-zpm">
-                                <rect key="frame" x="0.0" y="586" width="414" height="56"/>
+                                <rect key="frame" x="0.0" y="642" width="414" height="48"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="Imp-dF-U1a"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="40"/>
                                 <color key="textColor" red="0.14436533700000001" green="0.61852692109999996" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -327,17 +311,14 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="Q4P-JS-Y9i" firstAttribute="trailing" secondItem="Dxo-4p-BLX" secondAttribute="trailing" constant="-16" id="0Uz-45-NjS"/>
-                            <constraint firstItem="Q4P-JS-Y9i" firstAttribute="top" secondItem="5MF-YV-zpm" secondAttribute="bottom" id="3hn-ih-pmN"/>
                             <constraint firstItem="Pvd-az-gtO" firstAttribute="trailing" secondItem="Dxo-4p-BLX" secondAttribute="trailing" id="6vj-fm-atI"/>
-                            <constraint firstItem="Q4P-JS-Y9i" firstAttribute="leading" secondItem="Dxo-4p-BLX" secondAttribute="leading" constant="16" id="8M2-PD-tff"/>
-                            <constraint firstItem="5MF-YV-zpm" firstAttribute="top" secondItem="Pvd-az-gtO" secondAttribute="bottom" id="BHe-pU-1Al"/>
+                            <constraint firstItem="Dxo-4p-BLX" firstAttribute="bottom" secondItem="5MF-YV-zpm" secondAttribute="bottom" constant="46" id="DXj-pP-Fyd"/>
                             <constraint firstItem="5MF-YV-zpm" firstAttribute="leading" secondItem="Dxo-4p-BLX" secondAttribute="leading" id="EKY-RN-TdG"/>
-                            <constraint firstItem="Q4P-JS-Y9i" firstAttribute="top" secondItem="Pvd-az-gtO" secondAttribute="bottom" constant="56" id="T0R-u5-ASN"/>
-                            <constraint firstItem="Dxo-4p-BLX" firstAttribute="bottom" secondItem="Q4P-JS-Y9i" secondAttribute="bottom" constant="46" id="cPZ-Ab-ZVK"/>
+                            <constraint firstItem="Pvd-az-gtO" firstAttribute="top" secondItem="VwE-27-vCy" secondAttribute="top" id="L7l-ux-Lzq"/>
                             <constraint firstItem="Pvd-az-gtO" firstAttribute="leading" secondItem="Dxo-4p-BLX" secondAttribute="leading" id="eMN-6r-AJi"/>
                             <constraint firstItem="5MF-YV-zpm" firstAttribute="trailing" secondItem="Dxo-4p-BLX" secondAttribute="trailing" id="jc6-b9-4KH"/>
                             <constraint firstItem="Pvd-az-gtO" firstAttribute="top" secondItem="VwE-27-vCy" secondAttribute="top" id="pxc-41-Hfe"/>
+                            <constraint firstItem="5MF-YV-zpm" firstAttribute="top" secondItem="Pvd-az-gtO" secondAttribute="bottom" id="tPc-hh-H5f"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Dxo-4p-BLX"/>
                     </view>
@@ -349,7 +330,6 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="restartButton" destination="Q4P-JS-Y9i" id="RxN-FM-4IR"/>
                         <outlet property="resultsLabel" destination="5MF-YV-zpm" id="tzv-Xd-CgN"/>
                         <outlet property="tableview" destination="Pvd-az-gtO" id="21S-N4-P2o"/>
                     </connections>

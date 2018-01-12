@@ -48,12 +48,14 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
         super.viewDidLoad()
         self.tableView.dataSource = self
         self.tableView.delegate = self
-    }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
         self.loadData()
     }
+
+//    override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(true)
+//        self.loadData()
+//    }
 
     private var hasAppConfigurationSuccessed = false
     // MARK: private
@@ -71,6 +73,12 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
                 case .burnAppConfigurationPass:
                     self.hasAppConfigurationSuccessed = true
                     break
+                case .burnAppConfigurationFail:
+                    dispatch_to_main {
+                        self.burnDeviceIDInfo = "失败"
+                        self.showResult(message: "测试不通过，请注意分类", false)
+                    }
+                    break
                 case .burnSnCodePass:
                     if self.hasAppConfigurationSuccessed {
                         dispatch_to_main {
@@ -79,14 +87,36 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
                         }
                     }
                     break
+                case .burnSnCodeFail:
+                    dispatch_to_main {
+                        self.burnDeviceIDInfo = "失败"
+                        self.showResult(message: "测试不通过，请注意分类", false)
+                        self.tableView.reloadData()
+                    }
                 case .deleteUserIDPass:
                     dispatch_to_main {
                         SVProgressHUD.showInfo(withStatus: "删除 User ID")
                     }
                     break
+                case .TestFail:
+                    dispatch_to_main {
+                        self.showResult(message: "测试不通过，请注意分类", false)
+                    }
                 default: break
                 }
             }).disposed(by: self._disposeBag)
+    }
+
+    private func showResult(message: String,_ flag: Bool) {
+        self.resultLabel.text = message
+        self.resultLabel.isHidden = false
+        if flag {
+            self.resultLabel.textColor = #colorLiteral(red: 0.2337238216, green: 0.6367476892, blue: 1, alpha: 1)
+            self.resultLabel.font = UIFont.systemFont(ofSize: 40)
+        } else {
+            self.resultLabel.adjustsFontSizeToFitWidth = true
+            self.resultLabel.textColor = UIColor.red
+        }
     }
 
     private func resetData() {
@@ -159,7 +189,7 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
             cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 22)
         case "失败":
             cell.detailTextLabel?.textColor = UIColor.red
-            cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 16)
+            cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 22)
         default:
             break
         }
@@ -171,8 +201,6 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
         tableView.deselectRow(at: indexPath, animated: true)
         if 2 == indexPath.row {
             self.performSegue(withIdentifier: "burnDeviceInfoID", sender: self)
-            self.stopSmaple().then(execute: { () -> () in
-            })
         }
     }
 

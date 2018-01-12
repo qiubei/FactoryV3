@@ -113,6 +113,7 @@ class BoardConfigurationViewController: UITableViewController {
         self.datePicker!.datePickerMode = .date
         self.datePicker!.locale = Locale(identifier: "zh_CN")
         self.datePicker!.addTarget(self, action: #selector(self.dateValueChange(datePicker:)), for: .valueChanged)
+        self.datePicker!.setDate(Date(), animated: true)
         self.view.addSubview(datePicker!)
     }
 
@@ -121,6 +122,7 @@ class BoardConfigurationViewController: UITableViewController {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = formatterString
         self.configurationDataIterms[4] = dateFormatter.string(from: datePicker.date)
+        Defaults[.productedDate] = self.configurationDataIterms[4]
         self.tableView.reloadData()
     }
 }

@@ -12,8 +12,5 @@ import SVProgressHUD
 class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        SVProgressHUD.show(UIImage(named: "pass.png")!, status: "测试通过" )
-
     }
 }

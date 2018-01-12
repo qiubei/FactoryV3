@@ -9,8 +9,7 @@
 import Foundation
 
 // TODO: 还没有完成的 ugly code
-public
-func contains(_ sequence: [UInt8], _ subSequence: [UInt8]) -> Bool {
+public func contains(_ sequence: [UInt8], _ subSequence: [UInt8]) -> Bool {
     if sequence.count >= subSequence.count {
         for i in 0..<sequence.count {
             for j in 0..<subSequence.count {

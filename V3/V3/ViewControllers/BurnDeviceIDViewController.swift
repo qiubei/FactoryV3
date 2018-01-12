@@ -35,10 +35,13 @@ class BurnDeviceIDViewController: UIViewController, UITableViewDataSource, UITab
                     self.hasBurnAppConfiguraitonSuccessed = true
                     SVProgressHUD.showInfo(withStatus: "配置信息烧入成功")
                 }
-            }
+                }.catch(execute: { (error) in
+                    self.manager.state.value = SystemTestState.TestFail
+                })
         } else {
             dispatch_to_main {
                 SVProgressHUD.showInfo(withStatus: "烧入 App 配置失败")
+                self.manager.state.value = SystemTestState.burnAppConfigurationFail
             }
         }
     }
@@ -60,6 +63,7 @@ class BurnDeviceIDViewController: UIViewController, UITableViewDataSource, UITab
             } else {
                 dispatch_to_main {
                     SVProgressHUD.showInfo(withStatus: "烧入 Device ID 失败")
+                    self.manager.state.value = SystemTestState.burnSnCodeFail
                 }
             }
         }
@@ -80,18 +84,12 @@ class BurnDeviceIDViewController: UIViewController, UITableViewDataSource, UITab
         self.loadUI()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        self.tableView.reloadData()
+    }
+
     private let _disposeBag = DisposeBag()
-//    private func burnDeviceIDNotify() {
-//        self.manager.hasBurnDeviceIDSuccessed.asObservable()
-//            .subscribe(onNext: { [weak self] in
-//                guard let `self` = self else { return }
-//                if $0 {
-//                    dispatch_to_main {
-//                        self.navigationController?.popViewController(animated: true)
-//                    }
-//                }
-//            }).disposed(by: self._disposeBag)
-//    }
 
     private func loadUI() {
         self.burnIDButton.isEnabled = true
@@ -108,15 +106,18 @@ class BurnDeviceIDViewController: UIViewController, UITableViewDataSource, UITab
     }
 
     @objc private func snCodeValueChange(textField: UITextField) {
-        Defaults[.snCode] = textField.text
-        if let text = textField.text, text.count > 0 {
-            self.burnIDButton.isEnabled = true
-            self.burnIDButton.backgroundColor = #colorLiteral(red: 0.2337238216, green: 0.6367476892, blue: 1, alpha: 1)
-        }
-
-        if let text = textField.text, text.count == 0 {
-            self.burnIDButton.isEnabled = true
-            self.burnIDButton.backgroundColor = UIColor.lightGray
+        guard let text = textField.text else { return }
+        if text.starts(with: "NP") {
+            Defaults[.snCode] = text
+            if text.count > 0 {
+                self.burnIDButton.isEnabled = true
+                self.burnIDButton.backgroundColor = #colorLiteral(red: 0.2337238216, green: 0.6367476892, blue: 1, alpha: 1)
+            } else {
+                self.burnIDButton.isEnabled = false
+                self.burnIDButton.backgroundColor = UIColor.lightGray
+            }
+        } else {
+            SVProgressHUD.showInfo(withStatus: "SN 码必须以 NP 开头")
         }
     }
 

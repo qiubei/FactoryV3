@@ -13,15 +13,8 @@ import RxBluetoothKit
 
 class BoardTestViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
-    @IBOutlet weak var restartButton: UIButton!
     @IBOutlet weak var tableview: UITableView!
     @IBOutlet weak var resultsLabel: UILabel!
-    @IBAction func restartTest(_ sender: UIButton) {
-        SVProgressHUD.showInfo(withStatus: "重新测试")
-        self.manager.stopTest()
-        self.cleanUp()
-        self.updateState()
-    }
 
     var fixtureToolPeripheral: Peripheral!
     var manager: TestFlowManager!
@@ -108,7 +101,13 @@ class BoardTestViewController: UIViewController, UITableViewDataSource, UITableV
     private func addAlertSheet(title: String) {
         let alertController = UIAlertController(title: title, message: nil, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "通过", style: .default) { (alert) in
-            self.manager.state.value = TestFlowState.LEDDeviceReply
+//            // TODO:
+//            guard self.manager.state.value == TestFlowState.EggContactCheckPass else {
+//                self.manager.state.value = TestFlowState.TestFail
+//                return
+//            }
+            self.testResults[self.index] = "通过"
+            self.manager.state.value = TestFlowState.Completed
         }
         let cancelAction = UIAlertAction(title: "失败", style: .cancel) { (alert) in
             self.manager.state.value = TestFlowState.TestFail
@@ -120,13 +119,11 @@ class BoardTestViewController: UIViewController, UITableViewDataSource, UITableV
 
     private func cleanUp() {
         testResults =  ["未测试","未测试", "未测试", "未测试", "未测试", "未测试"]
-        self.tableview.reloadData()
-        self.manager.cleanUp()
         self.index = 0
-        self.subscription?.dispose()
-        self.subscription = nil
         self.resultsLabel.isHidden = true
+        self.tableview.reloadData()
     }
+
     private func showResult(message: String,_ flag: Bool) {
         self.resultsLabel.text = message
         self.resultsLabel.isHidden = false
@@ -139,113 +136,33 @@ class BoardTestViewController: UIViewController, UITableViewDataSource, UITableV
         }
     }
 
-
     private func updateState() {
-        self.subscription = manager.state.asObservable().subscribe(onNext: { [weak self] in
-            guard let `self` = self else { return }
-            self.index += 1
+        self.subscription = self.manager.state.asObservable()
+            .observeOn(MainScheduler.asyncInstance)
+            .subscribe(onNext: {
             let type = $0
-            switch type {
-            case .ReadyTest:
-                self.index -= 1
-                dispatch_to_main {
-                    SVProgressHUD.showInfo(withStatus: "ReadyTest")
-                }
-                break
-            case .StartTest:
-                self.index -= 1
-                guard self.index == 0 else { return }
-                dispatch_to_main {
+                switch type {
+                case .ReadyTest: self.index = 0
+                case .StartTest, .BoardChargePass, .BoardConnectedApp, .BrainAnalysePass, .EggContactCheckPass:
                     self.testResults[self.index] = "通过"
-                    SVProgressHUD.showInfo(withStatus: "startTest")
-                }
-                break
-            case .BoardChargePass:
-                guard self.index == 1 else { return }
-                dispatch_to_main {
-                    self.testResults[self.index] = "通过"
-                    SVProgressHUD.showInfo(withStatus: "BoardChargePass")
-                }
-                break
-            case .BoardConnectedApp:
-                guard self.index == 2 else { return }
-                dispatch_to_main {
-                    self.testResults[self.index] = "通过"
-                    SVProgressHUD.showInfo(withStatus: "BoardConnectedApp")
-                }
-                break
-            case .BrainAnalysePass:
-                guard self.index == 3 else { return }
-                dispatch_to_main {
-                    self.testResults[self.index] = "通过"
-                    SVProgressHUD.showInfo(withStatus: "BrainAnalysePass")
-                }
-                break
-            case .EggContactCheckPass:
-                guard self.index == 4 else { return }
-                dispatch_to_main {
-                    self.testResults[self.index] = "通过"
-                    SVProgressHUD.showInfo(withStatus: "EggContactCheckPass")
-                }
-                self.addAlertSheet(title: self.boradTestIterms[self.index])
-                break
-            case .LEDDeviceReply:
-                guard self.index == 5 else { return }
-
-                dispatch_to_main {
-                    self.testResults[self.index] = "通过"
-                    SVProgressHUD.showInfo(withStatus: "LEDShining")
-                }
-                break
-            case .Completed:
-                dispatch_to_main {
-                    SVProgressHUD.showInfo(withStatus: "测试通过")
+                    print("\(type) ---- \(self.testResults[self.index])")
+                    if self.index < self.testResults.count-1 {
+                        self.index += 1
+                    }
+                case .LEDDeviceReply:
+                    self.addAlertSheet(title: self.boradTestIterms[self.index])
+                case .TestFail:
+                    self.testResults[self.index] = "失败"
+                    self.showResult(message: self.boradTestIterms[self.index] + "不合格", false)
+                case .BoardDisConnectFixtool:
+                    self.cleanUp()
+                case .Completed:
                     self.showResult(message: "测试通过", true)
-                    self.subscription?.dispose()
-                }
-                break
-            case .TestFail:
-                guard self.index <= self.testResults.count - 1 else { return }
-                dispatch_to_main {
-                    self.testResults[self.index] = "失败"
-                    SVProgressHUD.showInfo(withStatus: "TestFail")
-                    self.showResult(message: "\(self.boradTestIterms[self.index]) -- 测试不合格", false)
-                    self.manager.stopTest()
-                    self.subscription?.dispose()
-                }
-                break
-            case .BoardAborted:
-                guard self.index < self.testResults.count - 1 else { return }
-                dispatch_to_main {
-                    self.manager.stopTest()
-                    self.testResults[self.index] = "失败"
-                    SVProgressHUD.showInfo(withStatus: "Aborted Complted")
-                    self.showResult(message: "板子已断开", false)
-                    self.subscription?.dispose()
-                }
-                break
-            case .FixToolAborted:
-                dispatch_to_main {
-                    self.testResults[self.index] = "失败"
-                    SVProgressHUD.showInfo(withStatus: "Aborted")
+                case .FixToolAborted:
                     self.navigationController?.popViewController(animated: true)
-                    self.manager.stopTest()
+                default: break
                 }
-                break
-            case .BoardConnectFixtool:
-                guard self.index < self.testResults.count - 1 else { return }
-                dispatch_to_main {
-                    self.testResults[self.index] = "失败"
-                    SVProgressHUD.showInfo(withStatus: "Aborted Complted")
-                    self.showResult(message: "板子和工装断开", false)
-                    self.manager.stopTest()
-                    self.subscription?.dispose()
-                }
-            default: break
-            }
-            dispatch_to_main {
                 self.tableview.reloadData()
-            }
         })
     }
 }

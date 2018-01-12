@@ -19,7 +19,7 @@ public enum TestCommand {
         case chargedSuccess         = 0x56
         case chargeFail             = 0x57
         case ADV                    = 0x58
-        case boardConnectFixtool    = 0x59
+        case boardDisConnectFixtool = 0x59
     }
 
     public enum FixtureToolAssert: UInt8 {

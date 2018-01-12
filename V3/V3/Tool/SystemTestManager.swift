@@ -14,12 +14,16 @@ import RxBluetoothKit
 import SVProgressHUD
 
 public enum SystemTestState: String {
-    case StartTest = "StartTest"
-    case BatteryTestPass = "BatteryTestPASS"
-    case contactTestPass = "contactTestPass"
+    case StartTest                = "StartTest"
+    case BatteryTestPass          = "BatteryTestPASS"
+    case contactTestPass          = "contactTestPass"
     case burnAppConfigurationPass = "burnAppConfigurationPass"
-    case burnSnCodePass = "burnSnCodePass"
-    case deleteUserIDPass = "deleteUserIDPass"
+    case burnAppConfigurationFail = "burnAppConfigurationFail"
+    case burnSnCodePass           = "burnSnCodePass"
+    case burnSnCodeFail           = "burnSnCodeFail"
+    case deleteUserIDPass         = "deleteUserIDPass"
+    case deleteUserIFail          = "deleteUserIFail"
+    case TestFail                 = "TestFail"
 }
 
 class SystemTestManager {
@@ -36,6 +40,10 @@ class SystemTestManager {
     // 搜索设备
     func scan() -> Observable<ScannedPeripheral> {
         return scanner.scan()
+    }
+
+    func stopScan() {
+        return scanner.stop()
     }
 
     // 停止搜索设备
@@ -121,6 +129,8 @@ class SystemTestManager {
                         if contains(self.appConfigureData.copiedBytes, data) {
                             self.state.value = SystemTestState.burnAppConfigurationPass
                             print("--------app configuraiton success--------")
+                        } else {
+                            self.state.value = SystemTestState.TestFail
                         }
                         break
                     case TestCommand.FixtureToolAssert.SN:
@@ -129,6 +139,8 @@ class SystemTestManager {
                         if contains(self.snCode.copiedBytes, data) {
                             self.state.value = SystemTestState.burnSnCodePass
                             print("--------burn sn code success--------")
+                        } else {
+                            self.state.value = SystemTestState.TestFail
                         }
                         break
                     case TestCommand.FixtureToolAssert.UserID:
@@ -137,6 +149,8 @@ class SystemTestManager {
                         if contains(self.defaultUserID, data) {
                             self.state.value = SystemTestState.deleteUserIDPass
                             print("--------burn success--------")
+                        } else {
+                            self.state.value = SystemTestState.TestFail
                         }
                         break
                     default: break
@@ -152,6 +166,8 @@ class SystemTestManager {
                 if $0.contains(0x00) {
                     self.state.value = SystemTestState.contactTestPass
                 }
+            }, onError: { error in
+                self.state.value = SystemTestState.TestFail
             })
 
         self.contactDisposeBag = self.connector?.eegService?.notify(characteristic: .data)

@@ -27,16 +27,15 @@ class SystemSelectDeviceViewController: UIViewController, UITableViewDataSource,
         super.viewDidLoad()
         self.tableview.dataSource = self
         self.tableview.delegate = self
-        self.loadData()
+//        self.loadData()
     }
 
     private var timer: Timer?
-
     private func loadData() {
         self.manager.scan()
             .subscribe(onNext: { [weak self] in
                 guard let `self` = self else { return }
-                if let _ = $0.peripheral.name {
+                if let name = $0.peripheral.name, name.contains("Nap"){
                     self.devices.append($0.peripheral)
                     self.devicesRssi.append($0.rssi.stringValue)
                     dispatch_to_main {
@@ -52,17 +51,21 @@ class SystemSelectDeviceViewController: UIViewController, UITableViewDataSource,
             }).disposed(by: _disposeBag)
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(true)
         self.timer?.invalidate()
+        self.stopScan()
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+        self.loadData()
         if let p = self.manager.connector?.peripheral {
             p.cancelConnection()
                 .subscribe {
-                    SVProgressHUD.showInfo(withStatus: "连接中断")
+                    dispatch_to_main {
+                        SVProgressHUD.showInfo(withStatus: "连接中断")
+                    }
             }.disposed(by: self._disposeBag)
         }
     }
@@ -109,6 +112,16 @@ class SystemSelectDeviceViewController: UIViewController, UITableViewDataSource,
         if self.devices.count >= 2 {
             self.swipControllerWith(peripheral: self.devices[indexPath.row])
         }
+    }
+
+    private func stopScan() {
+        self.manager.stopScan()
+        self.devices.removeAll()
+        self.devicesRssi.removeAll()
+        self.devices = [Peripheral]()
+        self.devicesRssi = [String]()
+        self.selectedPeripheral = nil
+        self.tableview.reloadData()
     }
 
     private func swipControllerWith(peripheral: Peripheral) {
