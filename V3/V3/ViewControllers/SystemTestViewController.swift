@@ -38,6 +38,8 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
                 dispatch_to_main {
                     SVProgressHUD.showInfo(withStatus: "关机成功")
                     self.manager.stopTest()
+                    self.connectDiposeBag?.dispose()
+                    self.connectDiposeBag = nil
                     self.navigationController?.popViewController(animated: true)
                 }
             })
@@ -48,14 +50,15 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
         super.viewDidLoad()
         self.tableView.dataSource = self
         self.tableView.delegate = self
-
         self.loadData()
     }
 
-//    override func viewDidAppear(_ animated: Bool) {
-//        super.viewDidAppear(true)
-//        self.loadData()
-//    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        if self.navigationController?.viewControllers.count == 2 {
+            self.manager.stopTest()
+        }
+    }
 
     private var hasAppConfigurationSuccessed = false
     // MARK: private
@@ -127,9 +130,11 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
     }
 
     private func loadData() {
+        //TODO: ugly code
+        self.resetData()
         self.manager.contactNotify()
         self.manager.burnDeviceNotify()
-        self.connectionNotify()
+//        self.connectionNotify()
         self.batteryInfoNotify()
         self.stateNotify()
         self.startSample().then { () -> () in
@@ -138,16 +143,16 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
     }
 
 
-    private var eegNotifyDisposeBag: Disposable?
+    private var connectDiposeBag: Disposable?
 
     private func connectionNotify() {
-        self.manager.connector?.peripheral.rx_isConnected
+        self.connectDiposeBag = self.manager.connector?.peripheral.rx_isConnected
             .subscribe(onNext: {
                 if !$0 {
                     SVProgressHUD.showInfo(withStatus: "设备连接中断")
                     self.navigationController?.popViewController(animated: true)
                 }
-            }).disposed(by: self._disposeBag)
+            })
     }
 
     private func batteryInfoNotify() {
@@ -207,11 +212,6 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
     // 开始采集
     private func startSample() -> Promise<Void> {
         return (self.manager.connector?.commandService?.write(data: Data(bytes: [TestCommand.BoardWriteType.startSample.rawValue]), to: Characteristic.Command.Write.send))!
-    }
-
-    // 停止采集
-    private func stopSmaple() -> Promise<Void> {
-        return (self.manager.connector?.commandService?.write(data: Data(bytes: [TestCommand.BoardWriteType.stopSample.rawValue]), to: Characteristic.Command.Write.send))!
     }
 
     deinit {

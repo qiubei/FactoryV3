@@ -217,14 +217,18 @@ class TestFlowManager {
                         }
                         break
                     case TestCommand.BoardAssert.rightVoltage:
-                        guard self.state.value == TestFlowState.EggContactCheckPass else {
-                            self.state.value = TestFlowState.TestFail
-                            return
-                        }
-                        var temp = $0
-                        temp.removeFirst(1)
-//                        if let voltage = temp.first,
-                        self.state.value = TestFlowState.BoardRightVoltagePass
+//                        guard self.state.value == TestFlowState.EggContactCheckPass else {
+//                            self.state.value = TestFlowState.TestFail
+//                            return
+//                        }
+//                        var temp = $0
+//                        temp.removeFirst(1)
+//                        if let voltage = temp.first, (voltage >= 29 && voltage <= 31) {
+//                            self.state.value = TestFlowState.BoardRightVoltagePass
+//                            self.state.value = TestFlowState.LEDDeviceReply
+//                        } else {
+//                            self.state.value = TestFlowState.TestFail
+//                        }
                         break
                     case TestCommand.BoardAssert.chargingSuccess: break
                     case TestCommand.BoardAssert.chargedSuccess:

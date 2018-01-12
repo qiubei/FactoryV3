@@ -28,8 +28,7 @@ class BurnDeviceIDViewController: UIViewController, UITableViewDataSource, UITab
     private var hasBurnAppConfiguraitonSuccessed = false
     // 烧入配置信息
     private func burnAppConfigurationCode() {
-        if let data = self.appConfigurationData {
-            print(data)
+        if let data = self.appConfigurationData, data.count == 16 {
             SystemTestManager.shared.burnBoardAppConfigure(appConfigureData: data).then { () -> () in
                 dispatch_to_main {
                     self.hasBurnAppConfiguraitonSuccessed = true
@@ -49,7 +48,7 @@ class BurnDeviceIDViewController: UIViewController, UITableViewDataSource, UITab
     // 烧入 sn 码
     private func burnSNCode() {
         if let text = textField.text {
-            if text.starts(with: "NP2") && text.count == 16 {
+            if text.starts(with: "NP") && text.count == 16 {
                 SystemTestManager.shared.burnBoardSN(snCode: text.data(using: .utf8)!).then { () -> () in
                     dispatch_to_main {
                         if self.hasBurnAppConfiguraitonSuccessed {
@@ -105,19 +104,21 @@ class BurnDeviceIDViewController: UIViewController, UITableViewDataSource, UITab
         self.textField.addTarget(self, action: #selector(self.snCodeValueChange(textField:)), for: .editingChanged)
     }
 
+    @objc private func test() {
+        print("editing end")
+    }
+
     @objc private func snCodeValueChange(textField: UITextField) {
         guard let text = textField.text else { return }
-        if text.starts(with: "NP") {
-            Defaults[.snCode] = text
-            if text.count > 0 {
-                self.burnIDButton.isEnabled = true
-                self.burnIDButton.backgroundColor = #colorLiteral(red: 0.2337238216, green: 0.6367476892, blue: 1, alpha: 1)
-            } else {
-                self.burnIDButton.isEnabled = false
-                self.burnIDButton.backgroundColor = UIColor.lightGray
+
+        if text.count == 16, text.starts(with: "NP") {
+            SVProgressHUD.show()
+            self.burnAppConfigurationCode()
+            Timer.after(2) {
+                self.burnSNCode()
             }
         } else {
-            SVProgressHUD.showInfo(withStatus: "SN 码必须以 NP 开头")
+            SVProgressHUD.showInfo(withStatus: "SN 码格式错误")
         }
     }
 

@@ -40,12 +40,12 @@ class SystemSelectDeviceViewController: UIViewController, UITableViewDataSource,
                     self.devicesRssi.append($0.rssi.stringValue)
                     dispatch_to_main {
                         self.tableview.reloadData()
-                        self.timer = Timer.after(2) {
-                            if self.devices.count == 1 {
-                                self.selectedPeripheral = self.devices[0]
-                                self.swipControllerWith(peripheral: self.selectedPeripheral!)
-                            }
-                        }
+//                        self.timer = Timer.after(2) {
+//                            if self.devices.count == 1 {
+//                                self.selectedPeripheral = self.devices[0]
+//                                self.swipControllerWith(peripheral: self.selectedPeripheral!)
+//                            }
+//                        }
                     }
                 }
             }).disposed(by: _disposeBag)
@@ -65,6 +65,8 @@ class SystemSelectDeviceViewController: UIViewController, UITableViewDataSource,
                 .subscribe {
                     dispatch_to_main {
                         SVProgressHUD.showInfo(withStatus: "连接中断")
+                        // TODO: ugly code
+                        self.manager.stopTest()
                     }
             }.disposed(by: self._disposeBag)
         }

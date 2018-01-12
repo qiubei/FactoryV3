@@ -66,6 +66,7 @@ class SystemTestManager {
         self.contactDisposeBag = nil
         self.burnDeviceIDDispiseBag?.dispose()
         self.burnDeviceIDDispiseBag = nil
+        self.state.value = SystemTestState.StartTest
     }
 
     // 连接蓝牙设备
@@ -167,7 +168,7 @@ class SystemTestManager {
                     self.state.value = SystemTestState.contactTestPass
                 }
             }, onError: { error in
-                self.state.value = SystemTestState.TestFail
+//                self.state.value = SystemTestState.TestFail
             })
 
         self.contactDisposeBag = self.connector?.eegService?.notify(characteristic: .data)
