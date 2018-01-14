@@ -18,8 +18,8 @@ class BoardTestViewController: UIViewController, UITableViewDataSource, UITableV
 
     var fixtureToolPeripheral: Peripheral!
     var manager: TestFlowManager!
-    private let boradTestIterms = ["单板和工装连接测试","单板电池充电测试", "单板与 app 连接测试", "前段信号采集和分析测试", "单板脱落信号测试", "LED 灯（红绿蓝）测试"]
-    private var testResults =  ["未测试","未测试", "未测试", "未测试", "未测试", "未测试"]
+    private let boradTestIterms = ["单板和工装连接测试","单板电池充电测试", "单板与 app 连接测试", "前段信号采集和分析测试", "单板脱落信号测试", "右腿信号测试", "LED 灯（红绿蓝）测试"]
+    private var testResults =  ["未测试","未测试", "未测试", "未测试", "未测试", "未测试", "未测试"]
     private let _disposeBag = DisposeBag()
 
     override func viewDidLoad() {
@@ -123,6 +123,13 @@ class BoardTestViewController: UIViewController, UITableViewDataSource, UITableV
         self.resultsLabel.isHidden = true
         self.tableview.reloadData()
     }
+//    StartTest ---- 通过
+//    BoardChargePass ---- 通过
+//    BoardConnectedApp ---- 通过
+//    BrainAnalysePass ---- 通过
+//    EggContactCheckPass ---- 通过
+//    BoardRightVoltagePass ---- 通过
+
 
     private func showResult(message: String,_ flag: Bool) {
         self.resultsLabel.text = message
@@ -143,7 +150,7 @@ class BoardTestViewController: UIViewController, UITableViewDataSource, UITableV
             let type = $0
                 switch type {
                 case .ReadyTest: self.index = 0
-                case .StartTest, .BoardChargePass, .BoardConnectedApp, .BrainAnalysePass, .EggContactCheckPass:
+                case .StartTest, .BoardChargePass, .BoardConnectedApp, .BrainAnalysePass, .BoardRightVoltagePass, .EggContactCheckPass:
                     self.testResults[self.index] = "通过"
                     print("\(type) ---- \(self.testResults[self.index])")
                     if self.index < self.testResults.count-1 {

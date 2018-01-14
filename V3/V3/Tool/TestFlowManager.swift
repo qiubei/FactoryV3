@@ -183,7 +183,7 @@ class TestFlowManager {
 
     private var tempADV = [UInt8]()
 
-
+    private var hasRightVoltagePass = false
     private var boardScanDisposeBag: Disposable?
     private var fixtoolDisposeBag: Disposable?
     // 设置工装监听
@@ -217,18 +217,11 @@ class TestFlowManager {
                         }
                         break
                     case TestCommand.BoardAssert.rightVoltage:
-//                        guard self.state.value == TestFlowState.EggContactCheckPass else {
-//                            self.state.value = TestFlowState.TestFail
-//                            return
-//                        }
-//                        var temp = $0
-//                        temp.removeFirst(1)
-//                        if let voltage = temp.first, (voltage >= 29 && voltage <= 31) {
-//                            self.state.value = TestFlowState.BoardRightVoltagePass
-//                            self.state.value = TestFlowState.LEDDeviceReply
-//                        } else {
-//                            self.state.value = TestFlowState.TestFail
-//                        }
+                        var temp = $0
+                        temp.removeFirst(1)
+                        if let voltage = temp.first, (voltage >= 29 && voltage <= 31) {
+                            self.hasRightVoltagePass = true
+                        }
                         break
                     case TestCommand.BoardAssert.chargingSuccess: break
                     case TestCommand.BoardAssert.chargedSuccess:
@@ -300,7 +293,6 @@ class TestFlowManager {
                 if let type = TestCommand.FixtureToolAssert(rawValue: $0.first!) {
                     switch type {
                     case TestCommand.FixtureToolAssert.press:
-//                        self.state.value = TestFlowState.LEDDeviceReply
                         self.state.value = TestFlowState.Completed
                         break
                     default: break
@@ -406,7 +398,14 @@ class TestFlowManager {
             if contains(self.contactSequence, [8, 16, 24]) {
                 if self.state.value == TestFlowState.BrainAnalysePass {
                     self.state.value = TestFlowState.EggContactCheckPass
-                    self.state.value = TestFlowState.LEDDeviceReply
+                    if self.hasRightVoltagePass {
+                        if self.state.value == .EggContactCheckPass {
+                            self.state.value = TestFlowState.BoardRightVoltagePass
+                            self.state.value = TestFlowState.LEDDeviceReply
+                        }
+                    } else {
+                        self.state.value = TestFlowState.TestFail
+                    }
                     self.startBoardLEDTest().then(execute: { ()->(Void) in
                     }).catch(execute: { (error) in
                         print(error)
