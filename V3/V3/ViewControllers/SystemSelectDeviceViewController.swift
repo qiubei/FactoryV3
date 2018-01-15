@@ -54,6 +54,7 @@ class SystemSelectDeviceViewController: UIViewController, UITableViewDataSource,
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(true)
         self.timer?.invalidate()
+        SVProgressHUD.dismiss()
         self.stopScan()
     }
 
@@ -111,9 +112,7 @@ class SystemSelectDeviceViewController: UIViewController, UITableViewDataSource,
         tableview.deselectRow(at: indexPath, animated: true)
         self.selectedPeripheral = self.devices[indexPath.row]
         SVProgressHUD.show()
-        if self.devices.count >= 2 {
-            self.swipControllerWith(peripheral: self.devices[indexPath.row])
-        }
+        self.swipControllerWith(peripheral: self.devices[indexPath.row])
     }
 
     private func stopScan() {
@@ -131,11 +130,9 @@ class SystemSelectDeviceViewController: UIViewController, UITableViewDataSource,
             return self.manager.connector!.handshake()
             }.then(execute: { () -> () in
                 dispatch_to_main {
-                    SVProgressHUD.dismiss()
                     self.performSegue(withIdentifier: "systemResultID", sender: self)
                 }
-            }).catch { (error) in
-                print(error)
-        }
+            }).catch
+        
     }
 }

@@ -98,38 +98,29 @@ class BoardTestViewController: UIViewController, UITableViewDataSource, UITableV
     private var subscription: Disposable?
     typealias EmptyBlock = () -> ()
 
+    private var alertViewController: UIAlertController?
     private func addAlertSheet(title: String) {
-        let alertController = UIAlertController(title: title, message: nil, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "通过", style: .default) { (alert) in
-//            // TODO:
-//            guard self.manager.state.value == TestFlowState.EggContactCheckPass else {
-//                self.manager.state.value = TestFlowState.TestFail
-//                return
-//            }
-            self.testResults[self.index] = "通过"
-            self.manager.state.value = TestFlowState.Completed
+        if nil == self.alertViewController  {
+            self.alertViewController = UIAlertController(title: title, message: nil, preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "通过", style: .default) { (alert) in
+                self.testResults[self.index] = "通过"
+                self.manager.state.value = TestFlowState.Completed
+            }
+            let cancelAction = UIAlertAction(title: "失败", style: .cancel) { (alert) in
+                self.manager.state.value = TestFlowState.TestFail
+            }
+            self.alertViewController!.addAction(okAction)
+            self.alertViewController!.addAction(cancelAction)
         }
-        let cancelAction = UIAlertAction(title: "失败", style: .cancel) { (alert) in
-            self.manager.state.value = TestFlowState.TestFail
-        }
-        alertController.addAction(okAction)
-        alertController.addAction(cancelAction)
-        self.present(alertController, animated: true, completion: nil)
+        self.present(self.alertViewController!, animated: true, completion: nil)
     }
 
     private func cleanUp() {
-        testResults =  ["未测试","未测试", "未测试", "未测试", "未测试", "未测试"]
+        testResults =  ["未测试","未测试", "未测试", "未测试", "未测试", "未测试", "未测试"]
         self.index = 0
         self.resultsLabel.isHidden = true
         self.tableview.reloadData()
     }
-//    StartTest ---- 通过
-//    BoardChargePass ---- 通过
-//    BoardConnectedApp ---- 通过
-//    BrainAnalysePass ---- 通过
-//    EggContactCheckPass ---- 通过
-//    BoardRightVoltagePass ---- 通过
-
 
     private func showResult(message: String,_ flag: Bool) {
         self.resultsLabel.text = message
@@ -162,6 +153,7 @@ class BoardTestViewController: UIViewController, UITableViewDataSource, UITableV
                     self.testResults[self.index] = "失败"
                     self.showResult(message: self.boradTestIterms[self.index] + "不合格", false)
                 case .BoardDisConnectFixtool:
+                    self.alertViewController?.dismiss(animated: true, completion: nil)
                     self.cleanUp()
                 case .Completed:
                     self.showResult(message: "测试通过", true)

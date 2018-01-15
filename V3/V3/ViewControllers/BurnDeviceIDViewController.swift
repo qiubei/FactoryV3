@@ -62,7 +62,7 @@ class BurnDeviceIDViewController: UIViewController, UITableViewDataSource, UITab
             } else {
                 dispatch_to_main {
                     SVProgressHUD.showInfo(withStatus: "烧入 Device ID 失败")
-                    self.manager.state.value = SystemTestState.burnSnCodeFail
+//                    self.manager.state.value = SystemTestState.burnSnCodeFail
                 }
             }
         }
@@ -109,9 +109,9 @@ class BurnDeviceIDViewController: UIViewController, UITableViewDataSource, UITab
     }
 
     @objc private func snCodeValueChange(textField: UITextField) {
-        guard let text = textField.text else { return }
+        guard let text = textField.text, text.count >= 16 else { return }
 
-        if text.count == 16, text.starts(with: "NP") {
+        if text.starts(with: "NP") {
             SVProgressHUD.show()
             self.burnAppConfigurationCode()
             Timer.after(2) {
