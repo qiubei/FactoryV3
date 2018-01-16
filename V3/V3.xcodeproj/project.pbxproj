@@ -22,6 +22,7 @@
 		B72D5F7B1FF2530E00267ECE /* LogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72D5F7A1FF2530E00267ECE /* LogViewController.swift */; };
 		B72D5F7D1FF2535100267ECE /* BoardConfigurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72D5F7C1FF2535100267ECE /* BoardConfigurationViewController.swift */; };
 		B72D5F7F1FF253D200267ECE /* BoardTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72D5F7E1FF253D200267ECE /* BoardTestViewController.swift */; };
+		B74C7D23200CA8CD000609DB /* SystemTestCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B74C7D22200CA8CD000609DB /* SystemTestCell.xib */; };
 		B76B96261FF48EC8003C2307 /* Preference.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76B96251FF48EC8003C2307 /* Preference.swift */; };
 		B76B96291FF4961A003C2307 /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76B96281FF4961A003C2307 /* DeviceInfo.swift */; };
 		B76B962B1FF4EAD5003C2307 /* BurnDeviceIDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76B962A1FF4EAD5003C2307 /* BurnDeviceIDViewController.swift */; };
@@ -54,6 +55,7 @@
 		B72D5F7A1FF2530E00267ECE /* LogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogViewController.swift; sourceTree = "<group>"; };
 		B72D5F7C1FF2535100267ECE /* BoardConfigurationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardConfigurationViewController.swift; sourceTree = "<group>"; };
 		B72D5F7E1FF253D200267ECE /* BoardTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTestViewController.swift; sourceTree = "<group>"; };
+		B74C7D22200CA8CD000609DB /* SystemTestCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SystemTestCell.xib; sourceTree = "<group>"; };
 		B76B96251FF48EC8003C2307 /* Preference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preference.swift; sourceTree = "<group>"; };
 		B76B96281FF4961A003C2307 /* DeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
 		B76B962A1FF4EAD5003C2307 /* BurnDeviceIDViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BurnDeviceIDViewController.swift; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 			children = (
 				B76B96271FF495FA003C2307 /* Model */,
 				B76B96241FF48DC1003C2307 /* Persistence */,
+				B74C7D21200CA7BC000609DB /* xib */,
 				B7A437442004AF2400527896 /* View */,
 				B718DC581FEA10F700F536F5 /* Tool */,
 				B72D5F791FF2436800267ECE /* ViewControllers */,
@@ -162,6 +165,14 @@
 				B7C61C961FFF0F8200CAE12F /* SystemPasswordViewController.swift */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		B74C7D21200CA7BC000609DB /* xib */ = {
+			isa = PBXGroup;
+			children = (
+				B74C7D22200CA8CD000609DB /* SystemTestCell.xib */,
+			);
+			path = xib;
 			sourceTree = "<group>";
 		};
 		B76B96241FF48DC1003C2307 /* Persistence */ = {
@@ -258,6 +269,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B74C7D23200CA8CD000609DB /* SystemTestCell.xib in Resources */,
 				B718DC501FE9FEF900F536F5 /* LaunchScreen.storyboard in Resources */,
 				B718DC4D1FE9FEF900F536F5 /* Assets.xcassets in Resources */,
 				B718DC481FE9FEF900F536F5 /* Main.storyboard in Resources */,
@@ -289,21 +301,25 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-V3/Pods-V3-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/BlocksKit/BlocksKit.framework",
 				"${BUILT_PRODUCTS_DIR}/NaptimeBLE/NaptimeBLE.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
 				"${BUILT_PRODUCTS_DIR}/RxBluetoothKit/RxBluetoothKit.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyTimer/SwiftyTimer.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyUserDefaults/SwiftyUserDefaults.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BlocksKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NaptimeBLE.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxBluetoothKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyTimer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyUserDefaults.framework",
 			);

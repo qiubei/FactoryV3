@@ -17,6 +17,7 @@ public enum SystemTestState: String {
     case StartTest                = "StartTest"
     case BatteryTestPass          = "BatteryTestPASS"
     case contactTestPass          = "contactTestPass"
+    case contactTestFail          = "contactTestFail"
     case burnAppConfigurationPass = "burnAppConfigurationPass"
     case burnAppConfigurationFail = "burnAppConfigurationFail"
     case burnSnCodePass           = "burnSnCodePass"
@@ -64,9 +65,16 @@ class SystemTestManager {
         self.appConfigureData = Data()
         self.contactDisposeBag?.dispose()
         self.contactDisposeBag = nil
+        self.eegDisposeBag?.dispose()
+        self.eegDisposeBag = nil
         self.burnDeviceIDDispiseBag?.dispose()
         self.burnDeviceIDDispiseBag = nil
         self.state.value = SystemTestState.StartTest
+
+        self.appConfiguration = nil
+        self.sn = nil
+        self.userID = nil
+        self.contactValue = Variable(-1)
     }
 
     // 连接蓝牙设备
@@ -75,7 +83,6 @@ class SystemTestManager {
         let promise = Promise<Void> { (fulfill, reject) in
             self.connector?.tryConnect().then(execute: { () -> () in
                 self.burnDeviceNotify()
-                self.contactNotify()
                 fulfill(())
             }).catch(execute: { (error) in
                 reject(error)
@@ -116,6 +123,9 @@ class SystemTestManager {
     }
 
     private var burnDeviceIDDispiseBag: Disposable?
+    var appConfiguration: String?
+    var sn: String?
+    var userID: String?
     // 设置板子监听
     func burnDeviceNotify() {
         self.burnDeviceIDDispiseBag = self.connector?.commandService?.notify(characteristic: Characteristic.Command.Notify.receive)
@@ -128,6 +138,7 @@ class SystemTestManager {
                         var data = $0
                         data.removeFirst(1)
                         if contains(self.appConfigureData.copiedBytes, data) {
+                            self.appConfiguration = String.init(data: self.appConfigureData, encoding: .utf8)
                             self.state.value = SystemTestState.burnAppConfigurationPass
                             print("--------app configuraiton success--------")
                         } else {
@@ -138,6 +149,7 @@ class SystemTestManager {
                         var data = $0
                         data.removeFirst(1)
                         if contains(self.snCode.copiedBytes, data) {
+                            self.sn = String.init(data: self.snCode, encoding: .utf8)
                             self.state.value = SystemTestState.burnSnCodePass
                             print("--------burn sn code success--------")
                         } else {
@@ -148,6 +160,7 @@ class SystemTestManager {
                         var data = $0
                         data.removeFirst(1)
                         if contains(self.defaultUserID, data) {
+                            self.userID = String.init(data: Data(bytes: self.defaultUserID), encoding: .utf8)
                             self.state.value = SystemTestState.deleteUserIDPass
                             print("--------burn success--------")
                         } else {
@@ -161,17 +174,26 @@ class SystemTestManager {
     }
 
     private var contactDisposeBag: Disposable?
+    private var eegDisposeBag: Disposable?
+
+    var contactValue = Variable(-1)
     func contactNotify() {
+
         self.contactDisposeBag = self.connector?.eegService?.notify(characteristic: .contact)
             .subscribe(onNext: {
+                self.contactValue.value = Int($0.first!)
+                print("system ---- \($0.first!)")
                 if $0.contains(0x00) {
                     self.state.value = SystemTestState.contactTestPass
+                    self.contactDisposeBag?.dispose()
+                } else {
+                    self.state.value = SystemTestState.contactTestFail
                 }
             }, onError: { error in
 //                self.state.value = SystemTestState.TestFail
             })
-
-        self.contactDisposeBag = self.connector?.eegService?.notify(characteristic: .data)
+        self.eegDisposeBag = self.connector?.eegService?.notify(characteristic: .data)
             .subscribe {}
     }
+
 }

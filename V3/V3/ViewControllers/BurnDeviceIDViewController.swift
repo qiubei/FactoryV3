@@ -62,7 +62,7 @@ class BurnDeviceIDViewController: UIViewController, UITableViewDataSource, UITab
             } else {
                 dispatch_to_main {
                     SVProgressHUD.showInfo(withStatus: "烧入 Device ID 失败")
-//                    self.manager.state.value = SystemTestState.burnSnCodeFail
+                    self.manager.state.value = SystemTestState.burnSnCodeFail
                 }
             }
         }

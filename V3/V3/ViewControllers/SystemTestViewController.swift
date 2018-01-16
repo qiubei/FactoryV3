@@ -22,6 +22,7 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
     private var batteryInfo = "未检测"
     private var contactInfo = "未检测"
     private var burnDeviceIDInfo = "未检测"
+    private var testInfo: [String] = ["测试信息", "测试信息", "测试信息"]
     private var results: [String] {
         return [self.batteryInfo, self.contactInfo, self.burnDeviceIDInfo]
     }
@@ -31,18 +32,9 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
     @IBOutlet weak var devicesTableview: UITableView!
     @IBOutlet weak var tableView: UITableView!
     @IBAction func restartAction(_ sender: UIButton) {
-        self.manager.deleteBoardUserId().then { [weak self]() -> () in
-            guard let `self` = self else { return }
+        self.manager.deleteBoardUserId().then { () -> () in
+//            guard let `self` = self else { return }
             SVProgressHUD.showInfo(withStatus: "userID 删除成功")
-            self.manager.shutdownBoard().then(execute: { () -> () in
-                dispatch_to_main {
-                    SVProgressHUD.showInfo(withStatus: "关机成功")
-                    self.manager.stopTest()
-                    self.connectDiposeBag?.dispose()
-                    self.connectDiposeBag = nil
-                    self.navigationController?.popViewController(animated: true)
-                }
-            })
         }
     }
 
@@ -53,8 +45,8 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
         self.loadData()
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(true)
         if self.navigationController?.viewControllers.count == 2 {
             self.manager.stopTest()
         }
@@ -64,49 +56,54 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
     // MARK: private
     private func stateNotify() {
         self.manager.state.asObservable()
+            .observeOn(MainScheduler.asyncInstance)
             .subscribe(onNext: {
                 let type = $0
                 switch type {
                 case .contactTestPass:
-                    dispatch_to_main {
-                        self.contactInfo = "通过"
-                        self.tableView.reloadData()
-                    }
+                    self.contactInfo = "通过"
+                    break
+                case .contactTestFail:
+                    self.contactInfo = "失败"
                     break
                 case .burnAppConfigurationPass:
                     self.hasAppConfigurationSuccessed = true
                     break
                 case .burnAppConfigurationFail:
-                    dispatch_to_main {
-                        self.burnDeviceIDInfo = "失败"
-                        self.showResult(message: "测试不通过，请注意分类", false)
-                    }
+                    self.burnDeviceIDInfo = "失败"
+                    self.testInfo[2] = "烧入 app 配置信息失败"
+                    self.showResult(message: "测试不通过，请注意分类", false)
                     break
                 case .burnSnCodePass:
                     if self.hasAppConfigurationSuccessed {
-                        dispatch_to_main {
-                            self.burnDeviceIDInfo = "通过"
-                            self.tableView.reloadData()
-                        }
+                        self.burnDeviceIDInfo = "通过"
+                        self.testInfo[2] = self.manager.appConfiguration! + self.manager.sn!
+                        self.resultLabel.isHidden = true
+                        self.tableView.reloadData()
                     }
                     break
                 case .burnSnCodeFail:
-                    dispatch_to_main {
-                        self.burnDeviceIDInfo = "失败"
-                        self.showResult(message: "测试不通过，请注意分类", false)
-                        self.tableView.reloadData()
-                    }
+                    self.testInfo[2] = "烧入 sn 码失败"
+                    self.burnDeviceIDInfo = "失败"
+                    self.showResult(message: "测试不通过，请注意分类", false)
+                    self.tableView.reloadData()
                 case .deleteUserIDPass:
                     dispatch_to_main {
                         SVProgressHUD.showInfo(withStatus: "删除 User ID")
+                        self.manager.shutdownBoard().then(execute: { () -> () in
+                            SVProgressHUD.showInfo(withStatus: "关机成功")
+                            self.manager.stopTest()
+                            self.connectDiposeBag?.dispose()
+                            self.connectDiposeBag = nil
+                            self.navigationController?.popViewController(animated: true)
+                        })
                     }
                     break
                 case .TestFail:
-                    dispatch_to_main {
-                        self.showResult(message: "测试不通过，请注意分类", false)
-                    }
+                    self.showResult(message: "测试不通过，请注意分类", false)
                 default: break
                 }
+                self.tableView.reloadData()
             }).disposed(by: self._disposeBag)
     }
 
@@ -135,6 +132,7 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
         self.manager.contactNotify()
         self.manager.burnDeviceNotify()
 //        self.connectionNotify()
+        self.contactValueChangeNotify()
         self.batteryInfoNotify()
         self.stateNotify()
         self.startSample().then { () -> () in
@@ -142,8 +140,19 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
         }
     }
 
-
     private var connectDiposeBag: Disposable?
+    private var contactValueChangeDisposeBag: Disposable?
+    private func contactValueChangeNotify() {
+        self.contactValueChangeDisposeBag = self.manager.contactValue.asObservable()
+            .observeOn(MainScheduler.asyncInstance)
+            .subscribe(onNext: {
+                self.testInfo[1] = String($0)
+                if 0 == $0 {
+                    self.contactValueChangeDisposeBag?.dispose()
+                }
+                self.tableView.reloadData()
+            })
+    }
 
     private func connectionNotify() {
         self.connectDiposeBag = self.manager.connector?.peripheral.rx_isConnected
@@ -158,7 +167,14 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
     private func batteryInfoNotify() {
         self.manager.connector?.batteryService?.read(characteristic: .battery).then { data in
                 dispatch_to_main {
-                    self.batteryInfo = String(format: "%d%%", data.copiedBytes[0])
+                    let battery = data.copiedBytes[0]
+                    if battery >= 40 {
+                        self.testInfo[0] = String(format: "%d%%", battery)
+                        self.batteryInfo = "通过"
+                    } else {
+                        self.testInfo[0] = "当前电量低于 40%，不利于存储"
+                        self.batteryInfo = "不合适"
+                    }
                     self.tableView.reloadData()
                 }
             }.catch { _ in
@@ -182,22 +198,26 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
         if let reuseCell = tableView.dequeueReusableCell(withIdentifier: CELL_REUSE_ID) {
             cell = reuseCell
         } else {
-            cell = UITableViewCell(style: .value1, reuseIdentifier: CELL_REUSE_ID)
+            cell = UITableViewCell(style: .subtitle, reuseIdentifier: CELL_REUSE_ID)
         }
         cell.textLabel?.text = self.items[indexPath.row]
         cell.textLabel?.textColor = #colorLiteral(red: 0.2337238216, green: 0.6367476892, blue: 1, alpha: 1)
-        cell.detailTextLabel?.text = self.results[indexPath.row]
+        cell.detailTextLabel?.text = self.testInfo[indexPath.row]
 
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 60, height: 44))
+        label.text = self.results[indexPath.row]
+        label.adjustsFontSizeToFitWidth = true
         switch self.results[indexPath.row] {
         case "通过":
-            cell.detailTextLabel?.textColor = UIColor.green
-            cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 22)
-        case "失败":
-            cell.detailTextLabel?.textColor = UIColor.red
-            cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 22)
+            label.textColor = UIColor.green
+            label.font = UIFont.systemFont(ofSize: 22)
+        case "失败", "不合适":
+            label.textColor = UIColor.red
+            label.font = UIFont.systemFont(ofSize: 22)
         default:
             break
         }
+        cell.accessoryView = label
         return cell
     }
 

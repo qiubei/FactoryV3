@@ -9,4 +9,6 @@ target 'V3' do
     pod 'SwiftyTimer'
     pod 'SVProgressHUD'
     pod 'SwiftyUserDefaults'
+    pod 'SnapKit'
+    pod 'BlocksKit'
 end
