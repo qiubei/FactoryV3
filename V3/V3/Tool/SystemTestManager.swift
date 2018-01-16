@@ -91,6 +91,10 @@ class SystemTestManager {
         return promise
     }
 
+    func intoSystemTestMode() -> Promise<Void> {
+        return (self.connector?.commandService?.write(data: Data(bytes: [TestCommand.BoardWriteType.systemMode.rawValue]), to: Characteristic.Command.Write.send))!
+    }
+
     var appConfigureData = Data()
 
     // 单板：烧入 app 配置项

@@ -46,6 +46,7 @@ public enum TestCommand {
         case deleteUserID           = 0x43
         case LED                    = 0x44
         case shutDown               = 0x45
+        case systemMode             = 0x48
         case startSample            = 0x01
         case stopSample             = 0x02
     }

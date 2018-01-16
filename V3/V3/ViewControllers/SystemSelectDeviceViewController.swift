@@ -128,11 +128,15 @@ class SystemSelectDeviceViewController: UIViewController, UITableViewDataSource,
     private func swipControllerWith(peripheral: Peripheral) {
         self.manager.startTestWith(peripheral: peripheral).then { () -> (Promise<Void>) in
             return self.manager.connector!.handshake()
-            }.then(execute: { () -> () in
+            }.then(execute: {
+                return self.manager.intoSystemTestMode()
+            }).then(execute: { () -> () in
                 dispatch_to_main {
                     self.performSegue(withIdentifier: "systemResultID", sender: self)
                 }
-            }).catch
-        
+            }).catch { (error) in
+                print(error)
+                SVProgressHUD.showError(withStatus: "设备连接失败")
+        }
     }
 }
