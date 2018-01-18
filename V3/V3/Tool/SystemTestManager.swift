@@ -81,8 +81,13 @@ class SystemTestManager {
     func startTestWith(peripheral: Peripheral) -> Promise<Void>{
         self.connector = Connector(peripheral: peripheral)
         let promise = Promise<Void> { (fulfill, reject) in
-            self.connector?.tryConnect().then(execute: { () -> () in
-//                self.burnDeviceNotify()
+            self.connector?.tryConnect().then(execute: { () -> (Promise<Void>) in
+                return self.connector!.handshake()
+            }).then(execute: { () -> (Promise<Void>) in
+                self.intoSystemTestMode()
+            }).then(execute: { () -> () in
+                self.contactNotify()
+                self.burnDeviceNotify()
                 fulfill(())
             }).catch(execute: { (error) in
                 reject(error)

@@ -86,7 +86,6 @@
                         <barButtonItem key="backBarButtonItem" title="连接工装" id="qV8-08-LTA">
                             <color key="tintColor" red="0.14436533700000001" green="0.61852692109999996" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="compose" id="fWJ-gU-RSi"/>
                     </navigationItem>
                     <connections>
                         <outlet property="startButton" destination="RAl-Dq-9ct" id="hh0-5B-m35"/>
@@ -181,7 +180,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zzb-Nh-xeE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="96.799999999999997" y="156.97151424287858"/>
+            <point key="canvasLocation" x="95.652173913043484" y="155.70652173913044"/>
         </scene>
         <!--系统测试-连接设备-->
         <scene sceneID="zMd-VA-2Og">
@@ -362,9 +361,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                        <color key="value" red="0.24293115847280336" green="0.64018370815899583" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
                                         <integer key="value" value="0"/>
                                     </userDefinedRuntimeAttribute>
@@ -379,34 +375,13 @@
                                 <color key="textColor" red="0.14436533700000001" green="0.61852692109999996" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Bo-OK-Kt0">
-                                <rect key="frame" x="16" y="336" width="382" height="48"/>
-                                <color key="backgroundColor" red="0.14436533700000001" green="0.61852692109999996" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="48" id="e6z-UE-BYv"/>
-                                </constraints>
-                                <state key="normal" title="烧入Device ID">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="5"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="burnDeviceIDAction:" destination="0ZO-P0-inX" eventType="touchUpInside" id="qj7-rY-ylS"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="j2y-Ax-Znn" firstAttribute="top" secondItem="Ves-Wg-Nct" secondAttribute="bottom" constant="8" id="1s6-En-OOn"/>
-                            <constraint firstItem="FMX-M3-zMd" firstAttribute="trailing" secondItem="3Bo-OK-Kt0" secondAttribute="trailing" constant="16" id="2pa-1A-led"/>
-                            <constraint firstItem="3Bo-OK-Kt0" firstAttribute="leading" secondItem="FMX-M3-zMd" secondAttribute="leading" constant="16" id="6Mh-Ly-c9Y"/>
                             <constraint firstItem="dDK-LP-SHE" firstAttribute="leading" secondItem="FMX-M3-zMd" secondAttribute="leading" constant="22" id="Nob-24-Khi"/>
                             <constraint firstItem="j2y-Ax-Znn" firstAttribute="leading" secondItem="dDK-LP-SHE" secondAttribute="trailing" constant="8" id="SlC-gj-DBb"/>
                             <constraint firstItem="Ves-Wg-Nct" firstAttribute="trailing" secondItem="FMX-M3-zMd" secondAttribute="trailing" id="gUl-Bf-ygf"/>
-                            <constraint firstItem="3Bo-OK-Kt0" firstAttribute="top" secondItem="j2y-Ax-Znn" secondAttribute="bottom" constant="6" id="iqv-Oa-9Gj"/>
                             <constraint firstItem="FMX-M3-zMd" firstAttribute="trailing" secondItem="j2y-Ax-Znn" secondAttribute="trailing" constant="22" id="mtC-CD-1bS"/>
                             <constraint firstItem="dDK-LP-SHE" firstAttribute="top" secondItem="Ves-Wg-Nct" secondAttribute="bottom" constant="13" id="u8a-h2-JWG"/>
                             <constraint firstItem="Ves-Wg-Nct" firstAttribute="top" secondItem="BAO-ho-OFR" secondAttribute="top" id="vnb-wG-rRp"/>
@@ -422,7 +397,6 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="burnIDButton" destination="3Bo-OK-Kt0" id="9os-8M-qsl"/>
                         <outlet property="tableView" destination="Ves-Wg-Nct" id="xr6-4P-LgC"/>
                         <outlet property="textField" destination="j2y-Ax-Znn" id="bPM-XH-qfz"/>
                     </connections>
@@ -430,35 +404,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lCh-B1-VE5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1686" y="914"/>
-        </scene>
-        <!--Board Configuration View Controller-->
-        <scene sceneID="yxd-fa-dMK">
-            <objects>
-                <tableViewController id="Osr-Jw-Kfq" customClass="BoardConfigurationViewController" customModule="V3" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="yE4-cV-ic0">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Ieg-Bo-8YK">
-                                <rect key="frame" x="0.0" y="55.333333333333336" width="414" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Ieg-Bo-8YK" id="sIn-My-17q">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="Osr-Jw-Kfq" id="Mxa-rS-2fl"/>
-                            <outlet property="delegate" destination="Osr-Jw-Kfq" id="l7L-xz-bLz"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" id="gCq-nI-Us4"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="qqk-S6-F5r" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3313" y="913"/>
         </scene>
         <!--System Password View Controller-->
         <scene sceneID="y2j-ZA-Y3a">
@@ -619,12 +564,43 @@
                         <outletCollection property="labelList" destination="A6O-W5-HZn" collectionClass="NSMutableArray" id="P7u-sM-DxY"/>
                         <outletCollection property="labelList" destination="mK3-n8-Pew" collectionClass="NSMutableArray" id="nLG-pe-JRa"/>
                         <outletCollection property="labelList" destination="yTv-D3-FyP" collectionClass="NSMutableArray" id="B0p-IE-KkP"/>
-                        <segue destination="Osr-Jw-Kfq" kind="push" identifier="appConfigurationID" id="Abi-bf-K5J"/>
+                        <segue destination="rc2-cw-rf4" kind="show" identifier="appConfigurationID" id="GEs-ye-p5B"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DUO-I3-zjA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2516" y="912.5937031484259"/>
+        </scene>
+        <!--Board Configuration View Controller-->
+        <scene sceneID="uiL-Qd-0T4">
+            <objects>
+                <viewController id="rc2-cw-rf4" customClass="BoardConfigurationViewController" customModule="V3" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="eTC-uZ-Png">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="4cT-Xg-1Gl">
+                                <rect key="frame" x="0.0" y="64" width="414" height="672"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="4cT-Xg-1Gl" firstAttribute="top" secondItem="aI3-gO-IXd" secondAttribute="top" id="A0a-rM-ymX"/>
+                            <constraint firstItem="4cT-Xg-1Gl" firstAttribute="trailing" secondItem="aI3-gO-IXd" secondAttribute="trailing" id="FuP-zf-FPo"/>
+                            <constraint firstItem="4cT-Xg-1Gl" firstAttribute="leading" secondItem="aI3-gO-IXd" secondAttribute="leading" id="lze-hy-4JG"/>
+                            <constraint firstItem="4cT-Xg-1Gl" firstAttribute="bottom" secondItem="aI3-gO-IXd" secondAttribute="bottom" id="q7c-0q-dUz"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="aI3-gO-IXd"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="5rw-vK-w3w"/>
+                    <connections>
+                        <outlet property="tableview" destination="4cT-Xg-1Gl" id="Saf-lB-iMo"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nt8-CL-gNO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3454" y="914"/>
         </scene>
         <!--Log-->
         <scene sceneID="alC-VN-k3f">
@@ -634,20 +610,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="A0d-Go-eIv">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="AtY-Y3-iO2" customClass="PTEConsoleTableView">
                                 <rect key="frame" x="0.0" y="64" width="414" height="672"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="A0d-Go-eIv" firstAttribute="bottom" secondItem="Nrx-wt-wYJ" secondAttribute="bottom" id="65F-ep-DcV"/>
-                            <constraint firstItem="A0d-Go-eIv" firstAttribute="leading" secondItem="Nrx-wt-wYJ" secondAttribute="leading" id="825-Db-PpV"/>
-                            <constraint firstItem="A0d-Go-eIv" firstAttribute="top" secondItem="Nrx-wt-wYJ" secondAttribute="top" id="Vdu-cj-74K"/>
-                            <constraint firstItem="A0d-Go-eIv" firstAttribute="trailing" secondItem="Nrx-wt-wYJ" secondAttribute="trailing" id="cUq-OS-Imb"/>
-                            <constraint firstItem="A0d-Go-eIv" firstAttribute="centerX" secondItem="Nrx-wt-wYJ" secondAttribute="centerX" id="h2P-JI-Hah"/>
+                            <constraint firstItem="AtY-Y3-iO2" firstAttribute="bottom" secondItem="Nrx-wt-wYJ" secondAttribute="bottom" id="Cco-p5-XLJ"/>
+                            <constraint firstItem="AtY-Y3-iO2" firstAttribute="leading" secondItem="Nrx-wt-wYJ" secondAttribute="leading" id="E3W-HK-6hi"/>
+                            <constraint firstItem="AtY-Y3-iO2" firstAttribute="trailing" secondItem="Nrx-wt-wYJ" secondAttribute="trailing" id="I8U-XB-6nQ"/>
+                            <constraint firstItem="AtY-Y3-iO2" firstAttribute="top" secondItem="Nrx-wt-wYJ" secondAttribute="top" id="ma9-Iu-gOn"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Nrx-wt-wYJ"/>
                     </view>
@@ -655,7 +628,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="maa-2R-B98" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2516" y="152"/>
+            <point key="canvasLocation" x="2515.9420289855075" y="151.63043478260872"/>
         </scene>
     </scenes>
 </document>

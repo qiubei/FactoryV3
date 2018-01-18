@@ -16,14 +16,14 @@ import RxSwift
 class BurnDeviceIDViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var textField: UITextField!
-    @IBOutlet weak var burnIDButton: UIButton!
-
-    @IBAction func burnDeviceIDAction(_ sender: UIButton) {
-        self.burnAppConfigurationCode()
-        Timer.after(2) {
-            self.burnSNCode()
-        }
-    }
+//    @IBOutlet weak var burnIDButton: UIButton!
+//
+//    @IBAction func burnDeviceIDAction(_ sender: UIButton) {
+//        self.burnAppConfigurationCode()
+//        Timer.after(2) {
+//            self.burnSNCode()
+//        }
+//    }
 
     private var hasBurnAppConfiguraitonSuccessed = false
     // 烧入配置信息
@@ -80,7 +80,7 @@ class BurnDeviceIDViewController: UIViewController, UITableViewDataSource, UITab
         self.tableView.dataSource = self
         self.tableView.delegate = self
         self.inputSNCode()
-        self.loadUI()
+//        self.loadUI()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -88,11 +88,9 @@ class BurnDeviceIDViewController: UIViewController, UITableViewDataSource, UITab
         self.tableView.reloadData()
     }
 
-    private let _disposeBag = DisposeBag()
-
     private func loadUI() {
-        self.burnIDButton.isEnabled = true
-        self.burnIDButton.backgroundColor = UIColor.lightGray
+//        self.burnIDButton.isEnabled = true
+//        self.burnIDButton.backgroundColor = UIColor.lightGray
     }
 
     private func inputSNCode() {
@@ -109,16 +107,18 @@ class BurnDeviceIDViewController: UIViewController, UITableViewDataSource, UITab
     }
 
     @objc private func snCodeValueChange(textField: UITextField) {
-        guard let text = textField.text, text.count >= 16 else { return }
-
-        if text.starts(with: "NP") {
-            SVProgressHUD.show()
-            self.burnAppConfigurationCode()
-            Timer.after(2) {
-                self.burnSNCode()
+        guard let text = textField.text else { return }
+        if text.first == "N" || text.starts(with: "NP") {
+            if text.count >= 16 {
+                SVProgressHUD.show()
+                self.burnAppConfigurationCode()
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2, execute: {
+                    self.burnSNCode()
+                })
             }
         } else {
             SVProgressHUD.showInfo(withStatus: "SN 码格式错误")
+            textField.text = ""
         }
     }
 
@@ -184,5 +184,9 @@ class BurnDeviceIDViewController: UIViewController, UITableViewDataSource, UITab
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+
+    deinit {
+        print("burn device id view controller deinit")
     }
 }

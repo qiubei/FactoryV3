@@ -27,7 +27,7 @@ class SystemSelectDeviceViewController: UIViewController, UITableViewDataSource,
         super.viewDidLoad()
         self.tableview.dataSource = self
         self.tableview.delegate = self
-//        self.loadData()
+        //        self.loadData()
     }
 
     private var timer: Timer?
@@ -40,12 +40,12 @@ class SystemSelectDeviceViewController: UIViewController, UITableViewDataSource,
                     self.devicesRssi.append($0.rssi.stringValue)
                     dispatch_to_main {
                         self.tableview.reloadData()
-//                        self.timer = Timer.after(2) {
-//                            if self.devices.count == 1 {
-//                                self.selectedPeripheral = self.devices[0]
-//                                self.swipControllerWith(peripheral: self.selectedPeripheral!)
-//                            }
-//                        }
+                        //                        self.timer = Timer.after(2) {
+                        //                            if self.devices.count == 1 {
+                        //                                self.selectedPeripheral = self.devices[0]
+                        //                                self.swipControllerWith(peripheral: self.selectedPeripheral!)
+                        //                            }
+                        //                        }
                     }
                 }
             }).disposed(by: _disposeBag)
@@ -69,7 +69,7 @@ class SystemSelectDeviceViewController: UIViewController, UITableViewDataSource,
                         // TODO: ugly code
                         self.manager.stopTest()
                     }
-            }.disposed(by: self._disposeBag)
+                }.disposed(by: self._disposeBag)
         }
     }
 
@@ -126,15 +126,9 @@ class SystemSelectDeviceViewController: UIViewController, UITableViewDataSource,
     }
 
     private func swipControllerWith(peripheral: Peripheral) {
-        self.manager.startTestWith(peripheral: peripheral).then { () -> (Promise<Void>) in
-            return self.manager.connector!.handshake()
-            }.then(execute: {
-                return self.manager.intoSystemTestMode()
-            }).then(execute: { () -> () in
-                dispatch_to_main {
-                    self.performSegue(withIdentifier: "systemResultID", sender: self)
-                }
-            }).catch { (error) in
+        self.manager.startTestWith(peripheral: peripheral).then { () -> () in
+            self.performSegue(withIdentifier: "systemResultID", sender: self)
+            }.catch { (error) in
                 print(error)
                 SVProgressHUD.showError(withStatus: "设备连接失败")
         }

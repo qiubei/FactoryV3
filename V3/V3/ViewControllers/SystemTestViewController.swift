@@ -77,7 +77,7 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
                 case .burnSnCodePass:
                     if self.hasAppConfigurationSuccessed {
                         self.burnDeviceIDInfo = "通过"
-                        self.testInfo[2] = self.manager.appConfiguration! + self.manager.sn!
+                        self.testInfo[2] = self.manager.sn!
                         self.resultLabel.isHidden = true
                         self.tableView.reloadData()
                     }
@@ -96,6 +96,8 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
                             self.connectDiposeBag?.dispose()
                             self.connectDiposeBag = nil
                             self.navigationController?.popViewController(animated: true)
+                        }).catch(execute: { (error) in
+                            print(error)
                         })
                     }
                     break
@@ -128,9 +130,7 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
 
     private func loadData() {
         //TODO: ugly code
-        self.resetData()
-        self.manager.contactNotify()
-        self.manager.burnDeviceNotify()
+//        self.resetData()
 //        self.connectionNotify()
         self.contactValueChangeNotify()
         self.batteryInfoNotify()
@@ -203,6 +203,7 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
         cell.textLabel?.text = self.items[indexPath.row]
         cell.textLabel?.textColor = #colorLiteral(red: 0.2337238216, green: 0.6367476892, blue: 1, alpha: 1)
         cell.detailTextLabel?.text = self.testInfo[indexPath.row]
+        cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 15)
 
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: 60, height: 44))
         label.text = self.results[indexPath.row]
@@ -227,6 +228,10 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
         if 2 == indexPath.row {
             self.performSegue(withIdentifier: "burnDeviceInfoID", sender: self)
         }
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80
     }
 
     // 开始采集
