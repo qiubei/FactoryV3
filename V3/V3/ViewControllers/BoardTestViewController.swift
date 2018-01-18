@@ -105,9 +105,11 @@ class BoardTestViewController: UIViewController, UITableViewDataSource, UITableV
             let okAction = UIAlertAction(title: "通过", style: .default) { (alert) in
                 self.testResults[self.index] = "通过"
                 self.manager.state.value = TestFlowState.Completed
+                Logger.shared.log(message: "单板测试通过", lavel: .Show)
             }
             let cancelAction = UIAlertAction(title: "失败", style: .cancel) { (alert) in
                 self.manager.state.value = TestFlowState.TestFail
+                Logger.shared.log(message: "LED 灯测试失败", lavel: .Error)
             }
             self.alertViewController!.addAction(okAction)
             self.alertViewController!.addAction(cancelAction)
@@ -140,7 +142,12 @@ class BoardTestViewController: UIViewController, UITableViewDataSource, UITableV
             .subscribe(onNext: {
             let type = $0
                 switch type {
-                case .ReadyTest: self.index = 0
+                case .ReadyTest:
+                    self.index = 0
+                    // 清空 Log 信息
+                    let firstLog = Logger.shared.logArray?.first
+                    Logger.shared.cleanUp()
+                    Logger.shared.logArray?.append(firstLog!)
                 case .StartTest, .BoardChargePass, .BoardConnectedApp, .BrainAnalysePass, .BoardRightVoltagePass, .EggContactCheckPass:
                     self.testResults[self.index] = "通过"
                     print("\(type) ---- \(self.testResults[self.index])")

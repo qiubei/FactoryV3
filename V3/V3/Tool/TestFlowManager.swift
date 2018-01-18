@@ -67,11 +67,12 @@ class TestFlowManager {
             self.fixtureToolConnector = Connector(peripheral: peripheral)
             self.fixtureTool          = peripheral
             self.fixtureToolConnector!.tryConnect().then(execute: { () -> Void in
+                Logger.shared.log(message: "fixtool_connect app success", lavel: .Show)
                 self.listenFixtureToolIsConnected()
                 Thread.sleep(forTimeInterval: 0.1)
                 self.setFixtureToolNotify()
             }).catch(execute: { (error) in
-                print(error)
+                Logger.shared.log(message: "fixtool_connect app failed", lavel: .Error)
             })
         } else {
             self.testedBoardConnector = Connector(peripheral: peripheral)
@@ -81,9 +82,8 @@ class TestFlowManager {
                     self.state.value = TestFlowState.TestFail
                     return
                 }
+                Logger.shared.log(message: "testing_board connect app connect success", lavel: .Show)
                 self.state.value = TestFlowState.BoardConnectedApp
-//                self.listTestedBoardIsConnected()
-//                Thread.sleep(forTimeInterval: 0.1)
                 self.setBoardNotify()
                 Thread.sleep(forTimeInterval: 0.1)
                 self.startEggSampleNotify()
@@ -91,14 +91,15 @@ class TestFlowManager {
                 self.startEggContactNotify()
                 Thread.sleep(forTimeInterval: 0.1)
                 self.startSample().then(execute: { () -> () in
-                    SVProgressHUD.showSuccess(withStatus: "0x01")
-                    print("send start sample")
+                    Logger.shared.log(message: "send 0x01 start sample", lavel: .Show)
                 }).catch(execute: { (error) in
                     self.state.value = TestFlowState.TestFail
+                    Logger.shared.log(message: "start smaple failed", lavel: .Error)
                     print(error)
                 })
                 }.catch(execute: { (error) in
                     self.state.value = TestFlowState.TestFail
+                    Logger.shared.log(message: "test_borad connect app failed", lavel: .Error)
                     print(error)
                 })
         }
@@ -192,7 +193,7 @@ class TestFlowManager {
             .subscribe (onNext: { [weak self] in
                 guard let `self` = self else { return }
 
-                print("fixture_tool - \(Date())-\($0)")
+                Logger.shared.log(message: "fixtool_signal -- \($0)", lavel: .Debug)
                 if let type = TestCommand.BoardAssert(rawValue: $0.first!) {
                     switch type {
                     case TestCommand.BoardAssert.startTestBoard:
@@ -230,14 +231,11 @@ class TestFlowManager {
                             return
                         }
                         self.state.value = TestFlowState.BoardChargePass
-                        print("------(temp) -----\(self.tempADV.count)-------")
                         if self.tempADV.count > 0 {
                             self.boardScanDisposeBag = self.scan().subscribe { [weak self] in
                                 guard let `self` = self else { return }
                                 if let mData = $0.element?.advertisementData.manufacturerData {
-                                    print("mData - \(mData.copiedBytes)")
                                     var temp = mData
-                                    print("------\(temp) -----\(self.tempADV.count)-------")
                                     temp.removeFirst(2)
                                     let ADV = Data(bytes: self.tempADV)
                                     if temp == ADV {
@@ -254,12 +252,10 @@ class TestFlowManager {
                         var testedBoardADV = $0
                         testedBoardADV.removeFirst(1)
                         self.tempADV = testedBoardADV
-                        print("-----------\(self.tempADV)-------")
                         if self.state.value == TestFlowState.BoardChargePass {
                             self.boardScanDisposeBag = self.scan().subscribe { [weak self] in
                                 guard let `self` = self else { return }
                                 if let mData = $0.element?.advertisementData.manufacturerData {
-                                    print("mData - \(mData.copiedBytes)")
                                     var temp = mData
                                     temp.removeFirst(2)
                                     let ADV = Data(bytes: self.tempADV)
@@ -289,7 +285,8 @@ class TestFlowManager {
         self.boardPressDisposeBag = self.testedBoardConnector?.commandService?.notify(characteristic: Characteristic.Command.Notify.receive)
             .subscribe (onNext: { [weak self] in
                 guard let `self` = self else { return }
-                print("tested_board - \(Date())-\($0)")
+//                print("testing_board - \(Date())-\($0)")
+                Logger.shared.log(message: "硬件按键反馈 -- \($0)", lavel: .Show)
                 if let type = TestCommand.FixtureToolAssert(rawValue: $0.first!) {
                     switch type {
                     case TestCommand.FixtureToolAssert.press:
@@ -311,7 +308,6 @@ class TestFlowManager {
         self.boardEegDisposeBag = self.testedBoardConnector?.eegService!.notify(characteristic: Characteristic.EEG.Notify.data)
             .subscribe (onNext: { [weak self] in
                 guard let `self` = self else { return }
-                print("egg sample thread ------- \(Thread.current)")
                 // ugly code
                 if self.currentBrainSmaples.count >= RAWBRAIN_SAMPLE_LENGTH {
                     if self.hasBrainSampleTested { return }
@@ -322,20 +318,22 @@ class TestFlowManager {
                             let brainValue1 = Int32(self.currentBrainSmaples[index-1]) << 8
                             let brainValue2 = Int32(self.currentBrainSmaples[index-2]) << 16
                             let brainValue = Int32(self.currentBrainSmaples[index]) + brainValue1 + brainValue2
-                            print("\(BRAINVALUE_RANGE_MIN) - \(brainValue) - \(BRAINVALUE_RANGE_MAX)")
                             if brainValue > BRAINVALUE_RANGE_MIN && brainValue < BRAINVALUE_RANGE_MAX {
                                 continue
                             } else {
                                 self.state.value = TestFlowState.TestFail
+                                Logger.shared.log(message: "脑波分析：取值不在范围内", lavel: .Error)
                                 return
                             }
                         }
                     }
                     if self.state.value == TestFlowState.BoardConnectedApp {
                         self.state.value = TestFlowState.BrainAnalysePass
-                        print("brain test pass .......")
+//                        print("brain test pass .......")
+                        Logger.shared.log(message: "脑波分析通过", lavel: .Show)
                         self.startContactSignal().then(execute: { () -> () in
-                            print("start contact singnal \(TestCommand.FixtureToolType.contactSingal.rawValue)")
+//                            print("start contact singnal \(TestCommand.FixtureToolType.contactSingal.rawValue)")
+                            Logger.shared.log(message: "开始脱落信号", lavel: .Error)
                             self.timer = Timer.after(4) {
                                 if !self.hasContactTested {
                                     self.hasContactTested = true
@@ -364,7 +362,8 @@ class TestFlowManager {
        self.boardContactDisposeBag = self.testedBoardConnector?.eegService!.notify(characteristic: Characteristic.EEG.Notify.contact)
             .subscribe (onNext: { [weak self] in
                 guard let `self` = self else { return }
-                print("tested_board: egg contact \(Date())-\($0)")
+//                print("testing_board: egg contact \(Date())-\($0)")
+                Logger.shared.log(message: "脱落信号检测 -- \($0)", lavel: .Show)
                 self.contactSequence.append(contentsOf: $0)
             })
     }
@@ -381,17 +380,6 @@ class TestFlowManager {
             }.disposed(by: _disposeBag)
     }
 
-    // 监听板子是否断开
-    private func listTestedBoardIsConnected() {
-        self.testedBoard?.rx_isConnected
-            .subscribe { [weak self] in
-                guard let `self` = self else { return }
-                if !$0.element! {
-                    self.state.value = TestFlowState.BoardAborted
-                }
-            }.disposed(by: _disposeBag)
-    }
-
     // 脱落检测测试
     private func contactTest() {
         self.stopSmaple().then(execute: { () -> () in
@@ -400,22 +388,28 @@ class TestFlowManager {
                     self.state.value = TestFlowState.EggContactCheckPass
                     if self.hasRightVoltagePass {
                         if self.state.value == .EggContactCheckPass {
+                            Logger.shared.log(message: "右腿电压测试通过", lavel: .Show)
                             self.state.value = TestFlowState.BoardRightVoltagePass
                             self.state.value = TestFlowState.LEDDeviceReply
                         }
                     } else {
+                        Logger.shared.log(message: "右腿电压测试不通过", lavel: .Error)
                         self.state.value = TestFlowState.TestFail
                     }
                     self.startBoardLEDTest().then(execute: { ()->(Void) in
+                        Logger.shared.log(message: "LED 灯测试", lavel: .Show)
                     }).catch(execute: { (error) in
                         print(error)
+                        Logger.shared.log(message: "写入 LED 灯信号失败", lavel: .Error)
                         self.state.value = TestFlowState.TestFail
                     })
                 } else {
                     self.state.value = TestFlowState.TestFail
+                    Logger.shared.log(message: "内部状态逻辑错误", lavel: .Error)
                 }
             } else {
                 self.state.value = TestFlowState.TestFail
+                Logger.shared.log(message: "脱落信号测试不通过", lavel: .Error)
             }
         }).catch(execute: {(error) in
             print(error)
