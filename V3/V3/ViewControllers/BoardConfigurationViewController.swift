@@ -11,10 +11,9 @@ import SwiftyUserDefaults
 
 typealias TextFieldBlock = (_ textField: UITextField) -> Void
 
-class BoardConfigurationViewController: UITableViewController {
+class BoardConfigurationViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     private let configurationTitleItems = ["硬件版本", "渠道", "定制", "生产商", "生产日期"]
-
     // 需要做持久化
     private var hardwareVersion: String {
         return DeviceInfo.shared.hardwareVersion
@@ -46,18 +45,56 @@ class BoardConfigurationViewController: UITableViewController {
         }
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    @IBOutlet weak var tableview: UITableView!
 
-        let idx = self.navigationController!.viewControllers.index(of: self)! - 1
-        self.navigationController?.viewControllers.remove(at: idx)
+    private var picker: PickerView?
+
+    @objc
+    private func addValueChangeObserver(notification: Notification) {
+        self.tableview.reloadData()
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    private func addObserves() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.addValueChangeObserver(notification:)),
+                                               name: DefaultsKeys.hardwareVersion.notificationName,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.addValueChangeObserver(notification:)),
+                                               name: DefaultsKeys.customMade.notificationName,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.addValueChangeObserver(notification:)),
+                                               name: DefaultsKeys.distributor.notificationName,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.addValueChangeObserver(notification:)),
+                                               name: DefaultsKeys.production.notificationName,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.addValueChangeObserver(notification:)),
+                                               name: DefaultsKeys.productedDate.notificationName,
+                                               object: nil)
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.tableview.dataSource = self
+        self.tableview.delegate = self
+        let idx = self.navigationController!.viewControllers.index(of: self)! - 1
+        self.navigationController?.viewControllers.remove(at: idx)
+        self.addObserves()
+    }
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.configurationDataIterms.count
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let identifierID = "STATIC_STRING_ID"
         let cell: UITableViewCell
         if let reusedCell = tableView.dequeueReusableCell(withIdentifier: identifierID) {
@@ -71,58 +108,32 @@ class BoardConfigurationViewController: UITableViewController {
         return cell
     }
 
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
         tableView.deselectRow(at: indexPath, animated: true)
-        if indexPath.row == 4 {
-            if self.datePicker == nil {
-                self.addDatePickerView()
-            } else {
-                self.datePicker?.isHidden = false
-            }
+        let show = { [weak self] in
+            guard let `self` = self else { return }
+            self.picker = [HardwareVersionPickerView.self, SourcePickerView.self, CustomTypePickerView.self, ManufacturerPickerView.self, ProducedDatePickerView.self][indexPath.row].init()
+            self.picker?.show(inViewController: self, finished: {
+                self.view.isUserInteractionEnabled = true
+            })
+        }
+
+        if let picker = self.picker {
+            self.view.isUserInteractionEnabled = false
+            picker.dismiss(finished: {
+                show()
+            })
         } else {
-            self.datePicker?.isHidden = true
-            self.addAlertSheet(title: self.configurationTitleItems[indexPath.row], self.hardwareVersion) { (textField) in
-                self.configurationDataIterms[indexPath.row] = textField.text!
-                tableView.reloadData()
-            }
+            show()
         }
     }
 
-    private func addAlertSheet(title: String,_ placeHolder: String, block: @escaping TextFieldBlock) {
-        var _textField: UITextField?
-        let alertController = UIAlertController(title: title, message: nil, preferredStyle: .alert)
-        alertController.addTextField { (textField) in
-            textField.keyboardType = .numberPad
-            textField.becomeFirstResponder()
-            _textField = textField
-        }
-        let okAction = UIAlertAction(title: "修改", style: .default) { (alert) in
-            block(_textField!)
-        }
-        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
-        alertController.addAction(okAction)
-        alertController.addAction(cancelAction)
-        self.present(alertController, animated: true, completion: nil)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.tableview.reloadData()
     }
 
-    private var datePicker: UIDatePicker?
-    private func addDatePickerView() {
-        let height = self.view.bounds.height * 0.35
-        let frame = CGRect(x: 0, y: self.view.bounds.height - height, width: self.view.bounds.width, height: height)
-        self.datePicker = UIDatePicker(frame: frame)
-        self.datePicker!.datePickerMode = .date
-        self.datePicker!.locale = Locale(identifier: "zh_CN")
-        self.datePicker!.addTarget(self, action: #selector(self.dateValueChange(datePicker:)), for: .valueChanged)
-        self.datePicker!.setDate(Date(), animated: true)
-        self.view.addSubview(datePicker!)
-    }
-
-    @objc private func dateValueChange(datePicker: UIDatePicker){
-        let formatterString = "yyMMdd"
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = formatterString
-        self.configurationDataIterms[4] = dateFormatter.string(from: datePicker.date)
-        Defaults[.productedDate] = self.configurationDataIterms[4]
-        self.tableView.reloadData()
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.tableview.reloadData()
     }
 }

@@ -9,6 +9,13 @@
 import Foundation
 import SwiftyUserDefaults
 
+extension DefaultsKey {
+    public var notificationName: Notification.Name {
+        let notification = Notification.Name(self._key + "NotificatonName")
+        return notification
+    }
+}
+
 class DeviceInfo {
     var hardwareVersion: String {
         get {
@@ -20,6 +27,7 @@ class DeviceInfo {
         }
         set {
             Defaults[.hardwareVersion] = newValue
+            NotificationCenter.default.post(name: DefaultsKeys.hardwareVersion.notificationName, object: nil)
         }
     }
     var distributor: String {
@@ -32,6 +40,7 @@ class DeviceInfo {
         }
         set {
             Defaults[.distributor] = newValue
+            NotificationCenter.default.post(name: DefaultsKeys.distributor.notificationName, object: nil)
         }
     }
     var customMade: String {
@@ -44,6 +53,7 @@ class DeviceInfo {
         }
         set {
             Defaults[.customMade] = newValue
+            NotificationCenter.default.post(name: DefaultsKeys.customMade.notificationName, object: nil)
         }
     }
     var production: String {
@@ -56,6 +66,7 @@ class DeviceInfo {
         }
         set {
             Defaults[.production] = newValue
+            NotificationCenter.default.post(name: DefaultsKeys.production.notificationName, object: nil)
         }
     }
     var productdDate: String {
@@ -69,6 +80,7 @@ class DeviceInfo {
         }
         set {
             Defaults[.productedDate] = newValue
+            NotificationCenter.default.post(name: DefaultsKeys.productedDate.notificationName, object: nil)
         }
     }
 
@@ -82,6 +94,7 @@ class DeviceInfo {
         }
         set {
             Defaults[.snCode] = newValue
+            NotificationCenter.default.post(name: DefaultsKeys.snCode.notificationName, object: nil)
         }
     }
 

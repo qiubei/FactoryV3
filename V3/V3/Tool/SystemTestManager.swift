@@ -82,7 +82,7 @@ class SystemTestManager {
         self.connector = Connector(peripheral: peripheral)
         let promise = Promise<Void> { (fulfill, reject) in
             self.connector?.tryConnect().then(execute: { () -> () in
-                self.burnDeviceNotify()
+//                self.burnDeviceNotify()
                 fulfill(())
             }).catch(execute: { (error) in
                 reject(error)
@@ -162,6 +162,7 @@ class SystemTestManager {
                         break
                     case TestCommand.FixtureToolAssert.UserID:
                         var data = $0
+                        print($0)
                         data.removeFirst(1)
                         if contains(self.defaultUserID, data) {
                             self.userID = String.init(data: Data(bytes: self.defaultUserID), encoding: .utf8)
@@ -199,5 +200,4 @@ class SystemTestManager {
         self.eegDisposeBag = self.connector?.eegService?.notify(characteristic: .data)
             .subscribe {}
     }
-
 }
