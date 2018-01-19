@@ -70,18 +70,7 @@ class DeviceInfo {
         }
     }
     var productdDate: String {
-        get {
-            if let value = Defaults[.productedDate] {
-                return value
-            } else {
-                // TODO:
-                return "171226"
-            }
-        }
-        set {
-            Defaults[.productedDate] = newValue
-            NotificationCenter.default.post(name: DefaultsKeys.productedDate.notificationName, object: nil)
-        }
+        return Date().stringWith(dateFormatterString: "yyMMdd")
     }
 
     var snCode: String {

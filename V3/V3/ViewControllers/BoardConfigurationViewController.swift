@@ -33,15 +33,11 @@ class BoardConfigurationViewController: UIViewController, UITableViewDelegate, U
 
     private var configurationDataIterms: [String] {
         get {
-            return [self.hardwareVersion, self.distributor, self.customMade, self.production, self.productedDate]
-        }
-
-        set {
-            DeviceInfo.shared.hardwareVersion = newValue[0]
-            DeviceInfo.shared.distributor = newValue[1]
-            DeviceInfo.shared.customMade = newValue[2]
-            DeviceInfo.shared.production = newValue[3]
-            DeviceInfo.shared.productdDate = newValue[4]
+            return [DeviceInfo.shared.hardwareVersion,
+                    DeviceInfo.shared.distributor,
+                    DeviceInfo.shared.customMade,
+                    DeviceInfo.shared.production,
+                    DeviceInfo.shared.productdDate]
         }
     }
 
@@ -111,9 +107,11 @@ class BoardConfigurationViewController: UIViewController, UITableViewDelegate, U
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         tableView.deselectRow(at: indexPath, animated: true)
+
+        if indexPath.row == (self.configurationDataIterms.count - 1) { return }
         let show = { [weak self] in
             guard let `self` = self else { return }
-            self.picker = [HardwareVersionPickerView.self, SourcePickerView.self, CustomTypePickerView.self, ManufacturerPickerView.self, ProducedDatePickerView.self][indexPath.row].init()
+            self.picker = [HardwareVersionPickerView.self, SourcePickerView.self, CustomTypePickerView.self, ManufacturerPickerView.self][indexPath.row].init()
             self.picker?.show(inViewController: self, finished: {
                 self.view.isUserInteractionEnabled = true
             })

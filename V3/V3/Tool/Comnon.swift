@@ -30,3 +30,12 @@ public func contains(_ sequence: [UInt8], _ subSequence: [UInt8]) -> Bool {
     }
     return false
 }
+
+
+extension Date {
+    public func stringWith(dateFormatterString: String)-> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = dateFormatterString
+        return formatter.string(from: self)
+    }
+}

@@ -28,17 +28,6 @@ class BoardSelectedViewController: UIViewController, UITableViewDataSource, UITa
         self.scanPeripherals()
     }
 
-//    override func viewDidAppear(_ animated: Bool) {
-//        super.viewDidAppear(true)
-//        self.startButton.backgroundColor = UIColor.lightGray
-//        self.peripherals = [Peripheral]()
-//        self.tableView.reloadData()
-//        self.manager.stopScan()
-//        self.selectedIndexPath = nil
-//        self.selectedPeripheral = nil
-//        self.scanPeripherals()
-//    }
-
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "testIdentifier" {
             let destinationVC = segue.destination as! BoardTestViewController

@@ -18,12 +18,10 @@ class ProducedDatePickerView: PickerView, UIPickerViewDataSource, UIPickerViewDe
 
         _saveButton.bk_addEventHandler({ [weak self] _ in
             guard let `self` = self else { return }
-            var info = DeviceInfo.shared.productdDate
-            let one = self._years[self._pickerView.selectedRow(inComponent: 0)]
-            let two = self._months[self._pickerView.selectedRow(inComponent: 1)]
-            let three = self._days[self._pickerView.selectedRow(inComponent: 2)]
-            info = one + two + three
-            DeviceInfo.shared.productdDate = info
+            // TODO: 待实现
+//            let one = self._years[self._pickerView.selectedRow(inComponent: 0)]
+//            let two = self._months[self._pickerView.selectedRow(inComponent: 1)]
+//            let three = self._days[self._pickerView.selectedRow(inComponent: 2)]
             self.dismiss()
         }, for: .touchUpInside)
     }

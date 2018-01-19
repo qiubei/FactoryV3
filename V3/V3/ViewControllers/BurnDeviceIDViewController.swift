@@ -151,7 +151,7 @@ class BurnDeviceIDViewController: UIViewController, UITableViewDataSource, UITab
             DeviceInfo.shared.distributor = newValue[1]
             DeviceInfo.shared.customMade = newValue[2]
             DeviceInfo.shared.production = newValue[3]
-            DeviceInfo.shared.productdDate = newValue[4]
+//            DeviceInfo.shared.productdDate = newValue[4]
         }
     }
 
