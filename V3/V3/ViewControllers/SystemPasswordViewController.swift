@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 let DEFAULT_CONFUGRATION_PASSWORD = "0000"
 
@@ -38,10 +39,8 @@ class SystemPasswordViewController: UIViewController, UITextFieldDelegate {
     @objc
     private func textFieldAction(textField: UITextField) {
         if let text = textField.text {
-            if self.passwordText.count == 4 {
-                self.reset()
-            }
             self.passwordText += text
+
             for iterm in self.labelList {
                 iterm.layer.borderWidth = 1
                 if self.passwordText.count == (iterm.tag % 10) {
@@ -49,6 +48,17 @@ class SystemPasswordViewController: UIViewController, UITextFieldDelegate {
                     textField.text = ""
                 }
             }
+
+            if self.passwordText.count == 4 {
+                if !(self.passwordText == DEFAULT_CONFUGRATION_PASSWORD) {
+                    SVProgressHUD.showError(withStatus: "密码错误")
+                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5, execute: {
+                        self.reset()
+                    })
+                    return
+                }
+            }
+
             if self.passwordText == DEFAULT_CONFUGRATION_PASSWORD {
                 self.performSegue(withIdentifier: "appConfigurationID", sender: self)
             }

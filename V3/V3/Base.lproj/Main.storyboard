@@ -176,7 +176,13 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="dLm-Le-UNq"/>
                     </view>
-                    <navigationItem key="navigationItem" title="主页" id="Uhl-hV-WKU"/>
+                    <navigationItem key="navigationItem" title="主页" id="Uhl-hV-WKU">
+                        <barButtonItem key="rightBarButtonItem" systemItem="compose" id="5mU-VV-uog">
+                            <connections>
+                                <segue destination="KT8-aI-fWr" kind="push" id="rfz-GV-TBa"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zzb-Nh-xeE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -389,13 +395,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="FMX-M3-zMd"/>
                     </view>
-                    <navigationItem key="navigationItem" id="QtH-XS-1I8">
-                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="compose" id="vCc-He-Xh1">
-                            <connections>
-                                <segue destination="KT8-aI-fWr" kind="push" identifier="appConfigurationPWDID" id="Mo3-8P-H4o"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="QtH-XS-1I8"/>
                     <connections>
                         <outlet property="tableView" destination="Ves-Wg-Nct" id="xr6-4P-LgC"/>
                         <outlet property="textField" destination="j2y-Ax-Znn" id="bPM-XH-qfz"/>
@@ -569,7 +569,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DUO-I3-zjA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2516" y="912.5937031484259"/>
+            <point key="canvasLocation" x="96" y="-703"/>
         </scene>
         <!--Board Configuration View Controller-->
         <scene sceneID="uiL-Qd-0T4">
@@ -600,7 +600,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nt8-CL-gNO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3454" y="914"/>
+            <point key="canvasLocation" x="1230" y="-703"/>
         </scene>
         <!--Log-->
         <scene sceneID="alC-VN-k3f">
