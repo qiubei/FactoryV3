@@ -178,7 +178,7 @@ class TestFlowManager {
     }
 
     // 停止采集
-    private func stopSmaple() -> Promise<Void> {
+    private func stopSample() -> Promise<Void> {
         return (self.testedBoardConnector?.commandService?.write(data: Data(bytes: [TestCommand.BoardWriteType.stopSample.rawValue]), to: Characteristic.Command.Write.send))!
     }
 
@@ -382,7 +382,8 @@ class TestFlowManager {
 
     // 脱落检测测试
     private func contactTest() {
-        self.stopSmaple().then(execute: { () -> () in
+        guard  let _ = self.testedBoardConnector else { return }
+        self.stopSample().then(execute: { () -> () in
             if contains(self.contactSequence, [8, 16, 24, 0]) {
                 if self.state.value == TestFlowState.BrainAnalysePass {
                     self.state.value = TestFlowState.EggContactCheckPass
