@@ -16,6 +16,8 @@
 		B718DC5A1FEA114100F536F5 /* FixtureToolPeriprheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = B718DC591FEA114100F536F5 /* FixtureToolPeriprheral.swift */; };
 		B718DC5C1FEA66BD00F536F5 /* TestedBoardPeripheral .swift in Sources */ = {isa = PBXBuildFile; fileRef = B718DC5B1FEA66BD00F536F5 /* TestedBoardPeripheral .swift */; };
 		B718DC5E1FEA674200F536F5 /* TestFlowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B718DC5D1FEA674200F536F5 /* TestFlowManager.swift */; };
+		B71A8B122010D252000FD002 /* dSYMUpload.sh in Resources */ = {isa = PBXBuildFile; fileRef = B71A8B102010D251000FD002 /* dSYMUpload.sh */; };
+		B71A8B132010D252000FD002 /* buglySymboliOS.jar in Frameworks */ = {isa = PBXBuildFile; fileRef = B71A8B112010D251000FD002 /* buglySymboliOS.jar */; };
 		B72D5F721FED384C00267ECE /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72D5F711FED384C00267ECE /* Logger.swift */; };
 		B72D5F751FEE2E8D00267ECE /* GCD.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72D5F741FEE2E8D00267ECE /* GCD.swift */; };
 		B72D5F771FF2013C00267ECE /* Comnon.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72D5F761FF2013C00267ECE /* Comnon.swift */; };
@@ -29,6 +31,12 @@
 		B77025041FEB95AD00D4E814 /* TestCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77025031FEB95AD00D4E814 /* TestCommand.swift */; };
 		B77CDA1E200B425100E6004E /* CustomPickView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77CDA1D200B425100E6004E /* CustomPickView.swift */; };
 		B79CFF411FFA777C003D12CC /* SystemTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79CFF401FFA777C003D12CC /* SystemTestViewController.swift */; };
+		B7B5A1AF200EF3BE00EEEAFA /* PickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B5A1A8200EF3BE00EEEAFA /* PickerView.swift */; };
+		B7B5A1B0200EF3BE00EEEAFA /* SourcePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B5A1A9200EF3BE00EEEAFA /* SourcePickerView.swift */; };
+		B7B5A1B1200EF3BE00EEEAFA /* ManufacturerPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B5A1AA200EF3BE00EEEAFA /* ManufacturerPickerView.swift */; };
+		B7B5A1B2200EF3BE00EEEAFA /* CustomTypePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B5A1AB200EF3BE00EEEAFA /* CustomTypePickerView.swift */; };
+		B7B5A1B3200EF3BE00EEEAFA /* ProducedDatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B5A1AC200EF3BE00EEEAFA /* ProducedDatePickerView.swift */; };
+		B7B5A1B4200EF3BE00EEEAFA /* HardwareVersionPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B5A1AD200EF3BE00EEEAFA /* HardwareVersionPickerView.swift */; };
 		B7C61C911FFCDA7400CAE12F /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C61C901FFCDA7400CAE12F /* HomeViewController.swift */; };
 		B7C61C931FFCDE2700CAE12F /* SystemSelectDeviceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C61C921FFCDE2700CAE12F /* SystemSelectDeviceViewController.swift */; };
 		B7C61C951FFDCA7900CAE12F /* SystemTestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C61C941FFDCA7900CAE12F /* SystemTestManager.swift */; };
@@ -49,6 +57,9 @@
 		B718DC591FEA114100F536F5 /* FixtureToolPeriprheral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixtureToolPeriprheral.swift; sourceTree = "<group>"; };
 		B718DC5B1FEA66BD00F536F5 /* TestedBoardPeripheral .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TestedBoardPeripheral .swift"; sourceTree = "<group>"; };
 		B718DC5D1FEA674200F536F5 /* TestFlowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestFlowManager.swift; sourceTree = "<group>"; };
+		B71A8B0D2010C793000FD002 /* Bridge-header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridge-header.h"; sourceTree = "<group>"; };
+		B71A8B102010D251000FD002 /* dSYMUpload.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = dSYMUpload.sh; sourceTree = "<group>"; };
+		B71A8B112010D251000FD002 /* buglySymboliOS.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; path = buglySymboliOS.jar; sourceTree = "<group>"; };
 		B72D5F711FED384C00267ECE /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		B72D5F741FEE2E8D00267ECE /* GCD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GCD.swift; sourceTree = "<group>"; };
 		B72D5F761FF2013C00267ECE /* Comnon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comnon.swift; sourceTree = "<group>"; };
@@ -62,6 +73,12 @@
 		B77025031FEB95AD00D4E814 /* TestCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCommand.swift; sourceTree = "<group>"; };
 		B77CDA1D200B425100E6004E /* CustomPickView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPickView.swift; sourceTree = "<group>"; };
 		B79CFF401FFA777C003D12CC /* SystemTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemTestViewController.swift; sourceTree = "<group>"; };
+		B7B5A1A8200EF3BE00EEEAFA /* PickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerView.swift; sourceTree = "<group>"; };
+		B7B5A1A9200EF3BE00EEEAFA /* SourcePickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourcePickerView.swift; sourceTree = "<group>"; };
+		B7B5A1AA200EF3BE00EEEAFA /* ManufacturerPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManufacturerPickerView.swift; sourceTree = "<group>"; };
+		B7B5A1AB200EF3BE00EEEAFA /* CustomTypePickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTypePickerView.swift; sourceTree = "<group>"; };
+		B7B5A1AC200EF3BE00EEEAFA /* ProducedDatePickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProducedDatePickerView.swift; sourceTree = "<group>"; };
+		B7B5A1AD200EF3BE00EEEAFA /* HardwareVersionPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HardwareVersionPickerView.swift; sourceTree = "<group>"; };
 		B7C61C901FFCDA7400CAE12F /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		B7C61C921FFCDE2700CAE12F /* SystemSelectDeviceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemSelectDeviceViewController.swift; sourceTree = "<group>"; };
 		B7C61C941FFDCA7900CAE12F /* SystemTestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemTestManager.swift; sourceTree = "<group>"; };
@@ -76,6 +93,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E841F222EA34D428B301B5F1 /* Pods_V3.framework in Frameworks */,
+				B71A8B132010D252000FD002 /* buglySymboliOS.jar in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,6 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				B718DC411FE9FEF900F536F5 /* V3 */,
+				B71A8B0F2010D251000FD002 /* dsymtool */,
 				B718DC401FE9FEF900F536F5 /* Products */,
 				2E5BE794AF57E89600CDF116 /* Pods */,
 				FB0298C977343E8093EB46A5 /* Frameworks */,
@@ -118,13 +137,13 @@
 				B7A437442004AF2400527896 /* View */,
 				B718DC581FEA10F700F536F5 /* Tool */,
 				B72D5F791FF2436800267ECE /* ViewControllers */,
-				B718DC571FEA08FA00F536F5 /* Support FIles */,
+				B718DC571FEA08FA00F536F5 /* Support Files */,
 				B718DC461FE9FEF900F536F5 /* Main.storyboard */,
 			);
 			path = V3;
 			sourceTree = "<group>";
 		};
-		B718DC571FEA08FA00F536F5 /* Support FIles */ = {
+		B718DC571FEA08FA00F536F5 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
 				B718DC511FE9FEF900F536F5 /* Info.plist */,
@@ -132,8 +151,9 @@
 				B718DC421FE9FEF900F536F5 /* AppDelegate.swift */,
 				B718DC4C1FE9FEF900F536F5 /* Assets.xcassets */,
 				B718DC4E1FE9FEF900F536F5 /* LaunchScreen.storyboard */,
+				B71A8B0D2010C793000FD002 /* Bridge-header.h */,
 			);
-			path = "Support FIles";
+			path = "Support Files";
 			sourceTree = "<group>";
 		};
 		B718DC581FEA10F700F536F5 /* Tool */ = {
@@ -149,6 +169,15 @@
 				B72D5F761FF2013C00267ECE /* Comnon.swift */,
 			);
 			path = Tool;
+			sourceTree = "<group>";
+		};
+		B71A8B0F2010D251000FD002 /* dsymtool */ = {
+			isa = PBXGroup;
+			children = (
+				B71A8B102010D251000FD002 /* dSYMUpload.sh */,
+				B71A8B112010D251000FD002 /* buglySymboliOS.jar */,
+			);
+			path = dsymtool;
 			sourceTree = "<group>";
 		};
 		B72D5F791FF2436800267ECE /* ViewControllers */ = {
@@ -194,9 +223,23 @@
 		B7A437442004AF2400527896 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				B7B5A1A6200EF3BE00EEEAFA /* PickerView */,
 				B77CDA1D200B425100E6004E /* CustomPickView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		B7B5A1A6200EF3BE00EEEAFA /* PickerView */ = {
+			isa = PBXGroup;
+			children = (
+				B7B5A1A8200EF3BE00EEEAFA /* PickerView.swift */,
+				B7B5A1A9200EF3BE00EEEAFA /* SourcePickerView.swift */,
+				B7B5A1AA200EF3BE00EEEAFA /* ManufacturerPickerView.swift */,
+				B7B5A1AB200EF3BE00EEEAFA /* CustomTypePickerView.swift */,
+				B7B5A1AC200EF3BE00EEEAFA /* ProducedDatePickerView.swift */,
+				B7B5A1AD200EF3BE00EEEAFA /* HardwareVersionPickerView.swift */,
+			);
+			path = PickerView;
 			sourceTree = "<group>";
 		};
 		FB0298C977343E8093EB46A5 /* Frameworks */ = {
@@ -220,6 +263,7 @@
 				B718DC3D1FE9FEF900F536F5 /* Resources */,
 				8152D464AF82FCEDE25240AF /* [CP] Embed Pods Frameworks */,
 				4124058DB12DA38464A46B40 /* [CP] Copy Pods Resources */,
+				B71A8B0E2010D1FB000FD002 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -273,6 +317,7 @@
 				B718DC501FE9FEF900F536F5 /* LaunchScreen.storyboard in Resources */,
 				B718DC4D1FE9FEF900F536F5 /* Assets.xcassets in Resources */,
 				B718DC481FE9FEF900F536F5 /* Main.storyboard in Resources */,
+				B71A8B122010D252000FD002 /* dSYMUpload.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,6 +373,19 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-V3/Pods-V3-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		B71A8B0E2010D1FB000FD002 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "################################################################################\n# 注意: 请配置下面的信息\n################################################################################\nBUGLY_APP_ID=\"c82324a9aa\"\nBUGLY_APP_KEY=\"bba869e2-9535-4c3f-8a5a-c24559ec0dc9\"\nBUNDLE_IDENTIFIER=\"cn.entertech.FactoryV3\"\n################################################################################\n# 自定义配置\n################################################################################\n# Debug模式编译是否上传，1＝上传 0＝不上传，默认不上传\nUPLOAD_DEBUG_SYMBOLS=0\n#\n# 模拟器编译是否上传，1=上传 0=不上传，默认不上传\nUPLOAD_SIMULATOR_SYMBOLS=0\n#\n# # 脚本默认配置的版本格式为CFBundleShortVersionString(CFBundleVersion),  如果你修改默认的版本格式, 请设置此变量, 如果不想修改, 请忽略此设置\n# CUSTOMIZED_APP_VERSION=\"\"\n#Support Files\nsource ${SRCROOT}/dsymtool/dSYMUpload.sh";
+		};
 		D7580C5F002B0DB958502C05 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -361,9 +419,11 @@
 				B7C61C911FFCDA7400CAE12F /* HomeViewController.swift in Sources */,
 				B72D5F7B1FF2530E00267ECE /* LogViewController.swift in Sources */,
 				B72D5F7F1FF253D200267ECE /* BoardTestViewController.swift in Sources */,
+				B7B5A1B2200EF3BE00EEEAFA /* CustomTypePickerView.swift in Sources */,
 				B718DC4B1FE9FEF900F536F5 /* V3.xcdatamodeld in Sources */,
 				B718DC5C1FEA66BD00F536F5 /* TestedBoardPeripheral .swift in Sources */,
 				B718DC431FE9FEF900F536F5 /* AppDelegate.swift in Sources */,
+				B7B5A1B3200EF3BE00EEEAFA /* ProducedDatePickerView.swift in Sources */,
 				B7C61C931FFCDE2700CAE12F /* SystemSelectDeviceViewController.swift in Sources */,
 				B72D5F751FEE2E8D00267ECE /* GCD.swift in Sources */,
 				B7C61C971FFF0F8200CAE12F /* SystemPasswordViewController.swift in Sources */,
@@ -371,9 +431,13 @@
 				B7C61C951FFDCA7900CAE12F /* SystemTestManager.swift in Sources */,
 				B72D5F7D1FF2535100267ECE /* BoardConfigurationViewController.swift in Sources */,
 				B76B962B1FF4EAD5003C2307 /* BurnDeviceIDViewController.swift in Sources */,
+				B7B5A1B1200EF3BE00EEEAFA /* ManufacturerPickerView.swift in Sources */,
 				B72D5F771FF2013C00267ECE /* Comnon.swift in Sources */,
+				B7B5A1AF200EF3BE00EEEAFA /* PickerView.swift in Sources */,
 				B77025041FEB95AD00D4E814 /* TestCommand.swift in Sources */,
+				B7B5A1B0200EF3BE00EEEAFA /* SourcePickerView.swift in Sources */,
 				B77CDA1E200B425100E6004E /* CustomPickView.swift in Sources */,
+				B7B5A1B4200EF3BE00EEEAFA /* HardwareVersionPickerView.swift in Sources */,
 				B72D5F721FED384C00267ECE /* Logger.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -512,13 +576,16 @@
 			baseConfigurationReference = 4A2F8880E97A2433F406C963 /* Pods-V3.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5EVD5KXKJ4;
+				DEVELOPMENT_TEAM = B73YJ689CU;
 				INFOPLIST_FILE = "V3/Support FIles/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cn.enter.V3;
+				PRODUCT_BUNDLE_IDENTIFIER = cn.entertech.FactoryV3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/zhy/Desktop/GitRepository/FactoryV3/V3/V3/Support FIles/Bridge-header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -529,13 +596,16 @@
 			baseConfigurationReference = C70DBD4432CDB054CABEB32A /* Pods-V3.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5EVD5KXKJ4;
+				DEVELOPMENT_TEAM = B73YJ689CU;
 				INFOPLIST_FILE = "V3/Support FIles/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cn.enter.V3;
+				PRODUCT_BUNDLE_IDENTIFIER = cn.entertech.FactoryV3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/zhy/Desktop/GitRepository/FactoryV3/V3/V3/Support FIles/Bridge-header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

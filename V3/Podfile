@@ -11,4 +11,5 @@ target 'V3' do
     pod 'SwiftyUserDefaults'
     pod 'SnapKit'
     pod 'BlocksKit'
+    pod 'Bugly'
 end
