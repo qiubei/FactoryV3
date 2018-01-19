@@ -88,18 +88,18 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
                     self.showResult(message: "测试不通过，请注意分类", false)
                     self.tableView.reloadData()
                 case .deleteUserIDPass:
-                    dispatch_to_main {
-                        SVProgressHUD.showInfo(withStatus: "删除 User ID")
-                        self.manager.shutdownBoard().then(execute: { () -> () in
-                            SVProgressHUD.showInfo(withStatus: "关机成功")
-                            self.manager.stopTest()
-                            self.connectDiposeBag?.dispose()
-                            self.connectDiposeBag = nil
-                            self.navigationController?.popViewController(animated: true)
-                        }).catch(execute: { (error) in
-                            print(error)
-                        })
-                    }
+//                    dispatch_to_main {
+//                    }
+                    SVProgressHUD.showInfo(withStatus: "删除 User ID")
+                    self.manager.shutdownBoard().then(execute: { () -> () in
+                        SVProgressHUD.showInfo(withStatus: "关机成功")
+                        self.manager.stopTest()
+                        self.connectDiposeBag?.dispose()
+                        self.connectDiposeBag = nil
+                        self.navigationController?.popViewController(animated: true)
+                    }).catch(execute: { (error) in
+                        print(error)
+                    })
                     break
                 case .TestFail:
                     self.showResult(message: "测试不通过，请注意分类", false)
@@ -130,8 +130,7 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
 
     private func loadData() {
         //TODO: ugly code
-//        self.resetData()
-//        self.connectionNotify()
+        self.connectionNotify()
         self.contactValueChangeNotify()
         self.batteryInfoNotify()
         self.stateNotify()
@@ -156,6 +155,7 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
 
     private func connectionNotify() {
         self.connectDiposeBag = self.manager.connector?.peripheral.rx_isConnected
+            .observeOn(MainScheduler.asyncInstance)
             .subscribe(onNext: {
                 if !$0 {
                     SVProgressHUD.showInfo(withStatus: "设备连接中断")
