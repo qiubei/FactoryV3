@@ -37,6 +37,7 @@
 		B7B5A1B2200EF3BE00EEEAFA /* CustomTypePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B5A1AB200EF3BE00EEEAFA /* CustomTypePickerView.swift */; };
 		B7B5A1B3200EF3BE00EEEAFA /* ProducedDatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B5A1AC200EF3BE00EEEAFA /* ProducedDatePickerView.swift */; };
 		B7B5A1B4200EF3BE00EEEAFA /* HardwareVersionPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B5A1AD200EF3BE00EEEAFA /* HardwareVersionPickerView.swift */; };
+		B7BF5C3C201214DB00D052D1 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BF5C3B201214DB00D052D1 /* ProfileViewController.swift */; };
 		B7C61C911FFCDA7400CAE12F /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C61C901FFCDA7400CAE12F /* HomeViewController.swift */; };
 		B7C61C931FFCDE2700CAE12F /* SystemSelectDeviceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C61C921FFCDE2700CAE12F /* SystemSelectDeviceViewController.swift */; };
 		B7C61C951FFDCA7900CAE12F /* SystemTestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C61C941FFDCA7900CAE12F /* SystemTestManager.swift */; };
@@ -79,6 +80,7 @@
 		B7B5A1AB200EF3BE00EEEAFA /* CustomTypePickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTypePickerView.swift; sourceTree = "<group>"; };
 		B7B5A1AC200EF3BE00EEEAFA /* ProducedDatePickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProducedDatePickerView.swift; sourceTree = "<group>"; };
 		B7B5A1AD200EF3BE00EEEAFA /* HardwareVersionPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HardwareVersionPickerView.swift; sourceTree = "<group>"; };
+		B7BF5C3B201214DB00D052D1 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		B7C61C901FFCDA7400CAE12F /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		B7C61C921FFCDE2700CAE12F /* SystemSelectDeviceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemSelectDeviceViewController.swift; sourceTree = "<group>"; };
 		B7C61C941FFDCA7900CAE12F /* SystemTestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemTestManager.swift; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 				B79CFF401FFA777C003D12CC /* SystemTestViewController.swift */,
 				B7C61C921FFCDE2700CAE12F /* SystemSelectDeviceViewController.swift */,
 				B7C61C961FFF0F8200CAE12F /* SystemPasswordViewController.swift */,
+				B7BF5C3B201214DB00D052D1 /* ProfileViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -424,6 +427,7 @@
 				B718DC5C1FEA66BD00F536F5 /* TestedBoardPeripheral .swift in Sources */,
 				B718DC431FE9FEF900F536F5 /* AppDelegate.swift in Sources */,
 				B7B5A1B3200EF3BE00EEEAFA /* ProducedDatePickerView.swift in Sources */,
+				B7BF5C3C201214DB00D052D1 /* ProfileViewController.swift in Sources */,
 				B7C61C931FFCDE2700CAE12F /* SystemSelectDeviceViewController.swift in Sources */,
 				B72D5F751FEE2E8D00267ECE /* GCD.swift in Sources */,
 				B7C61C971FFF0F8200CAE12F /* SystemPasswordViewController.swift in Sources */,

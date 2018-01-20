@@ -89,16 +89,18 @@ class PickerView: UIView {
     }()
 
     let _cancelButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(type: UIButtonType.roundedRect)
         button.setTitle("取消", for: .normal)
-        button.setTitleColor(UIColor.black, for: .normal)
+        button.setTitleColor(#colorLiteral(red: 0.2337238216, green: 0.6367476892, blue: 1, alpha: 1), for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         return button
     }()
 
     let _saveButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(type: UIButtonType.roundedRect)
         button.setTitle("保存", for: .normal)
-        button.setTitleColor(UIColor.black, for: .normal)
+        button.setTitleColor(#colorLiteral(red: 0.2337238216, green: 0.6367476892, blue: 1, alpha: 1), for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         return button
     }()
 

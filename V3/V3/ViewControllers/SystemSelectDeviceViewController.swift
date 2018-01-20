@@ -21,31 +21,32 @@ class SystemSelectDeviceViewController: UIViewController, UITableViewDataSource,
     private let _disposeBag = DisposeBag()
     private var devices = [Peripheral]()
     private var devicesRssi = [String]()
+    private var scanedPeripherals = [ScannedPeripheral]()
     private var selectedPeripheral: Peripheral?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableview.dataSource = self
         self.tableview.delegate = self
-        //        self.loadData()
     }
 
     private var timer: Timer?
     private func loadData() {
         self.manager.scan()
+            .observeOn(MainScheduler.asyncInstance)
             .subscribe(onNext: { [weak self] in
                 guard let `self` = self else { return }
+
                 if let name = $0.peripheral.name, name.contains("Nap"){
+                    self.scanedPeripherals.append($0)
                     self.devices.append($0.peripheral)
                     self.devicesRssi.append($0.rssi.stringValue)
-                    dispatch_to_main {
-                        self.tableview.reloadData()
-                        //                        self.timer = Timer.after(2) {
-                        //                            if self.devices.count == 1 {
-                        //                                self.selectedPeripheral = self.devices[0]
-                        //                                self.swipControllerWith(peripheral: self.selectedPeripheral!)
-                        //                            }
-                        //                        }
+                    self.tableview.reloadData()
+                    self.timer = Timer.after(2) {
+                        if self.devices.count == 1 {
+                            self.selectedPeripheral = self.devices[0]
+                            self.swipControllerWith(peripheral: self.selectedPeripheral!)
+                        }
                     }
                 }
             }).disposed(by: _disposeBag)
@@ -110,6 +111,8 @@ class SystemSelectDeviceViewController: UIViewController, UITableViewDataSource,
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableview.deselectRow(at: indexPath, animated: true)
+        self.timer?.invalidate()
+        self.timer = nil
         self.selectedPeripheral = self.devices[indexPath.row]
         SVProgressHUD.show()
         self.swipControllerWith(peripheral: self.devices[indexPath.row])
