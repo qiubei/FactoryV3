@@ -11,6 +11,32 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Profile View Controller-->
+        <scene sceneID="PDS-wy-XMi">
+            <objects>
+                <viewController id="cNx-J3-a0u" customClass="ProfileViewController" customModule="V3" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Edv-rI-nAK">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="PhG-ZV-TMe">
+                                <rect key="frame" x="0.0" y="20" width="414" height="716"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="bwd-oZ-P88"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="QaJ-sx-Qu6"/>
+                    <connections>
+                        <outlet property="tableView" destination="PhG-ZV-TMe" id="lzQ-Id-8zy"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7a8-xm-bzr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-813.04347826086962" y="-588.58695652173913"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="xws-U5-461">
             <objects>
@@ -177,6 +203,11 @@
                         <viewLayoutGuide key="safeArea" id="dLm-Le-UNq"/>
                     </view>
                     <navigationItem key="navigationItem" title="主页" id="Uhl-hV-WKU">
+                        <barButtonItem key="leftBarButtonItem" systemItem="bookmarks" id="6cE-ZH-IxE">
+                            <connections>
+                                <segue destination="cNx-J3-a0u" kind="push" id="3e3-WA-tvf"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="compose" id="5mU-VV-uog">
                             <connections>
                                 <segue destination="KT8-aI-fWr" kind="push" id="rfz-GV-TBa"/>
