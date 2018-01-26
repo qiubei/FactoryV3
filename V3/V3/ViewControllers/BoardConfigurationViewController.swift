@@ -127,11 +127,7 @@ class BoardConfigurationViewController: UIViewController, UITableViewDelegate, U
         }
     }
 
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.tableview.reloadData()
-    }
-
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.tableview.reloadData()
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 1.0
     }
 }

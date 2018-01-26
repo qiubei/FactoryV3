@@ -234,6 +234,10 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
         return 80
     }
 
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 1.0
+    }
+
     // 开始采集
     private func startSample() -> Promise<Void> {
         return (self.manager.connector?.commandService?.write(data: Data(bytes: [TestCommand.BoardWriteType.startSample.rawValue]), to: Characteristic.Command.Write.send))!
