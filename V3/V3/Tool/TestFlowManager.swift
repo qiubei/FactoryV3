@@ -321,10 +321,10 @@ class TestFlowManager {
                             let brainValue2 = Int32(self.currentBrainSmaples[index-2]) << 16
                             let brainValue = Int32(self.currentBrainSmaples[index]) + brainValue1 + brainValue2
                             if brainValue > BRAINVALUE_RANGE_MIN && brainValue < BRAINVALUE_RANGE_MAX {
-                                Logger.shared.log(message: "脑波分析：\(brainValue)", lavel: .Show)
+                                Logger.shared.log(message: "脑波分析：\(self.currentBrainSmaples[index-2])-\(self.currentBrainSmaples[index-1])-\(self.currentBrainSmaples[index])", lavel: .Show)
                                 continue
                             } else {
-                                Logger.shared.log(message: "Out of Range \(brainValue)", lavel: .Error)
+                                Logger.shared.log(message: "Out of Range \(self.currentBrainSmaples[index-2])-\(self.currentBrainSmaples[index-1])-\(self.currentBrainSmaples[index])", lavel: .Error)
                                 self.hasBrainPass = false
                                 continue
 //                                return
