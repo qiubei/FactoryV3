@@ -165,6 +165,7 @@ class TestFlowManager {
         self.currentBrainSmaples = [UInt8]()
         self.contactSequence = [UInt8]()
         self.hasContactTested = false
+        self.hasBrainPass = true
     }
 
     private func cleanUp() {
@@ -303,6 +304,7 @@ class TestFlowManager {
 
     private var boardEegDisposeBag: Disposable?
     private var timer: Timer?
+    private var hasBrainPass = true
     // 设置单板监听。
     private func startEggSampleNotify() {
         self.boardEegDisposeBag = self.testedBoardConnector?.eegService!.notify(characteristic: Characteristic.EEG.Notify.data)
@@ -319,13 +321,19 @@ class TestFlowManager {
                             let brainValue2 = Int32(self.currentBrainSmaples[index-2]) << 16
                             let brainValue = Int32(self.currentBrainSmaples[index]) + brainValue1 + brainValue2
                             if brainValue > BRAINVALUE_RANGE_MIN && brainValue < BRAINVALUE_RANGE_MAX {
+                                Logger.shared.log(message: "脑波分析：\(brainValue)", lavel: .Show)
                                 continue
                             } else {
-                                self.state.value = TestFlowState.TestFail
-                                Logger.shared.log(message: "脑波分析：取值不在范围内", lavel: .Error)
-                                return
+                                Logger.shared.log(message: "Out of Range \(brainValue)", lavel: .Error)
+                                self.hasBrainPass = false
+                                continue
+//                                return
                             }
                         }
+                    }
+                    if !self.hasBrainPass {
+                        self.state.value = TestFlowState.TestFail
+                        return
                     }
                     if self.state.value == TestFlowState.BoardConnectedApp {
                         self.state.value = TestFlowState.BrainAnalysePass
