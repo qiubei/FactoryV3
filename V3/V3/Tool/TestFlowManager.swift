@@ -315,7 +315,7 @@ class TestFlowManager {
                     if self.hasBrainSampleTested { return }
 
                     self.hasBrainSampleTested = true
-                    for index in  0..<self.currentBrainSmaples.count {
+                    for index in  150..<self.currentBrainSmaples.count {
                         if (index + 1) % 3 == 0 {
                             let brainValue1 = Int32(self.currentBrainSmaples[index-1]) << 8
                             let brainValue2 = Int32(self.currentBrainSmaples[index-2]) << 16
