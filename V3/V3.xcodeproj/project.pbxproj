@@ -30,6 +30,8 @@
 		B76B962B1FF4EAD5003C2307 /* BurnDeviceIDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76B962A1FF4EAD5003C2307 /* BurnDeviceIDViewController.swift */; };
 		B77025041FEB95AD00D4E814 /* TestCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77025031FEB95AD00D4E814 /* TestCommand.swift */; };
 		B77CDA1E200B425100E6004E /* CustomPickView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77CDA1D200B425100E6004E /* CustomPickView.swift */; };
+		B79493E620240919004166E3 /* CommandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79493E520240919004166E3 /* CommandViewController.swift */; };
+		B79493E820241076004166E3 /* CommandManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79493E720241076004166E3 /* CommandManager.swift */; };
 		B79CFF411FFA777C003D12CC /* SystemTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79CFF401FFA777C003D12CC /* SystemTestViewController.swift */; };
 		B7B5A1AF200EF3BE00EEEAFA /* PickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B5A1A8200EF3BE00EEEAFA /* PickerView.swift */; };
 		B7B5A1B0200EF3BE00EEEAFA /* SourcePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B5A1A9200EF3BE00EEEAFA /* SourcePickerView.swift */; };
@@ -73,6 +75,8 @@
 		B76B962A1FF4EAD5003C2307 /* BurnDeviceIDViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BurnDeviceIDViewController.swift; sourceTree = "<group>"; };
 		B77025031FEB95AD00D4E814 /* TestCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCommand.swift; sourceTree = "<group>"; };
 		B77CDA1D200B425100E6004E /* CustomPickView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPickView.swift; sourceTree = "<group>"; };
+		B79493E520240919004166E3 /* CommandViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandViewController.swift; sourceTree = "<group>"; };
+		B79493E720241076004166E3 /* CommandManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandManager.swift; sourceTree = "<group>"; };
 		B79CFF401FFA777C003D12CC /* SystemTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemTestViewController.swift; sourceTree = "<group>"; };
 		B7B5A1A8200EF3BE00EEEAFA /* PickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerView.swift; sourceTree = "<group>"; };
 		B7B5A1A9200EF3BE00EEEAFA /* SourcePickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourcePickerView.swift; sourceTree = "<group>"; };
@@ -169,6 +173,7 @@
 				B72D5F711FED384C00267ECE /* Logger.swift */,
 				B72D5F741FEE2E8D00267ECE /* GCD.swift */,
 				B72D5F761FF2013C00267ECE /* Comnon.swift */,
+				B79493E720241076004166E3 /* CommandManager.swift */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -195,6 +200,7 @@
 				B7C61C921FFCDE2700CAE12F /* SystemSelectDeviceViewController.swift */,
 				B7C61C961FFF0F8200CAE12F /* SystemPasswordViewController.swift */,
 				B7BF5C3B201214DB00D052D1 /* ProfileViewController.swift */,
+				B79493E520240919004166E3 /* CommandViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -358,6 +364,7 @@
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyTimer/SwiftyTimer.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyUserDefaults/SwiftyUserDefaults.framework",
+				"${BUILT_PRODUCTS_DIR}/UIActionKit/UIActionKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -370,6 +377,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyTimer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyUserDefaults.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UIActionKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -423,7 +431,9 @@
 				B72D5F7B1FF2530E00267ECE /* LogViewController.swift in Sources */,
 				B72D5F7F1FF253D200267ECE /* BoardTestViewController.swift in Sources */,
 				B7B5A1B2200EF3BE00EEEAFA /* CustomTypePickerView.swift in Sources */,
+				B79493E820241076004166E3 /* CommandManager.swift in Sources */,
 				B718DC4B1FE9FEF900F536F5 /* V3.xcdatamodeld in Sources */,
+				B79493E620240919004166E3 /* CommandViewController.swift in Sources */,
 				B718DC5C1FEA66BD00F536F5 /* TestedBoardPeripheral .swift in Sources */,
 				B718DC431FE9FEF900F536F5 /* AppDelegate.swift in Sources */,
 				B7B5A1B3200EF3BE00EEEAFA /* ProducedDatePickerView.swift in Sources */,

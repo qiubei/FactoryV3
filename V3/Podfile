@@ -12,4 +12,5 @@ target 'V3' do
     pod 'SnapKit'
     pod 'BlocksKit'
     pod 'Bugly'
+    pod 'UIActionKit', :git => "https://github.com/HyanCat/UIActionKit.git", :branch => "master"
 end

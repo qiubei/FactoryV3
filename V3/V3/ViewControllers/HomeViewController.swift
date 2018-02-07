@@ -10,6 +10,12 @@ import UIKit
 import SVProgressHUD
 
 class HomeViewController: UIViewController {
+    private var timer: Timer?
+
+    @IBAction func featureButton(_ sender: UIButton) {
+        self.performSegue(withIdentifier: "featureID", sender: self)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
     }

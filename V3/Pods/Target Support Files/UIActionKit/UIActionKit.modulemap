@@ -1,0 +1,6 @@
+framework module UIActionKit {
+  umbrella header "UIActionKit-umbrella.h"
+
+  export *
+  module * { export * }
+}

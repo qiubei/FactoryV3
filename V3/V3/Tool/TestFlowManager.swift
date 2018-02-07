@@ -117,7 +117,7 @@ class TestFlowManager {
 
     // 工装: 开始脱落信息
     private func startContactSignal() -> Promise<Void> {
-        return (self.fixtureToolConnector?.commandService?.write(data: Data(bytes: [0x61]), to: Characteristic.Command.Write.send))!
+        return (self.fixtureToolConnector?.commandService?.write(data: Data(bytes: [TestCommand.FixtureToolType.contactSingal.rawValue]), to: Characteristic.Command.Write.send))!
     }
 
     // 工装：停止向板子充电
