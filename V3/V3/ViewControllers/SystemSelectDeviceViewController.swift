@@ -17,6 +17,15 @@ class SystemSelectDeviceViewController: UIViewController, UITableViewDataSource,
 
     @IBOutlet weak var tableview: UITableView!
 
+    @IBAction func scanAction(_ sender: UIBarButtonItem) {
+        if sender.title == "扫描" {
+            sender.title = "停止"
+            self.loadData()
+        } else {
+            sender.title = "扫描"
+            self.stopScan()
+        }
+    }
     private let manager = SystemTestManager.shared
     private let _disposeBag = DisposeBag()
     private var devices = [Peripheral]()
@@ -37,7 +46,7 @@ class SystemSelectDeviceViewController: UIViewController, UITableViewDataSource,
             .subscribe(onNext: { [weak self] in
                 guard let `self` = self else { return }
 
-                if let name = $0.peripheral.name, name.contains("Nap"){
+                if let name = $0.peripheral.name, name.contains("易休") || name.contains("Luuna") || name.contains("Nap") {
                     self.scanedPeripherals.append($0)
                     self.devices.append($0.peripheral)
                     self.devicesRssi.append($0.rssi.stringValue)
@@ -61,7 +70,7 @@ class SystemSelectDeviceViewController: UIViewController, UITableViewDataSource,
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        self.loadData()
+//        self.loadData()
         if let p = self.manager.connector?.peripheral {
             p.cancelConnection()
                 .subscribe {

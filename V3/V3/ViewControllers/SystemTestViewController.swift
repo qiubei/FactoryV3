@@ -62,6 +62,7 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
                 switch type {
                 case .contactTestPass:
                     self.contactInfo = "通过"
+                    self.contactValueChangeDisposeBag?.dispose()
                     break
                 case .contactTestFail:
                     self.contactInfo = "失败"
@@ -146,9 +147,9 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
             .observeOn(MainScheduler.asyncInstance)
             .subscribe(onNext: {
                 self.testInfo[1] = String($0)
-                if 0 == $0 {
-                    self.contactValueChangeDisposeBag?.dispose()
-                }
+//                if 0 == $0 {
+//                    self.contactValueChangeDisposeBag?.dispose()
+//                }
                 self.tableView.reloadData()
             })
     }

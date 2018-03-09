@@ -75,6 +75,7 @@ class SystemTestManager {
         self.sn = nil
         self.userID = nil
         self.contactValue = Variable(-1)
+        self.contactSequences = [UInt8]()
     }
 
     // 连接蓝牙设备
@@ -187,17 +188,24 @@ class SystemTestManager {
     private var eegDisposeBag: Disposable?
 
     var contactValue = Variable(-1)
-    func contactNotify() {
 
+    private var contactSequences = [UInt8]()
+    func contactNotify() {
         self.contactDisposeBag = self.connector?.eegService?.notify(characteristic: .contact)
             .subscribe(onNext: {
                 self.contactValue.value = Int($0.first!)
+                self.contactSequences.append($0.first!)
                 print("system ---- \($0.first!)")
-                if $0.contains(0x00) {
-                    self.state.value = SystemTestState.contactTestPass
-                    self.contactDisposeBag?.dispose()
-                } else {
-                    self.state.value = SystemTestState.contactTestFail
+                if self.contactSequences.count >= 4 {
+                    if self.contactSequences.contains(0x00)
+                        && self.contactSequences.contains(0x08)
+                        && self.contactSequences.contains(0x10)
+                        && self.contactSequences.contains(0x18) {
+                        self.state.value = SystemTestState.contactTestPass
+                        self.contactDisposeBag?.dispose()
+                    } else {
+                        self.state.value = SystemTestState.contactTestFail
+                    }
                 }
             }, onError: { error in
 //                self.state.value = SystemTestState.TestFail
