@@ -341,7 +341,7 @@ class TestFlowManager {
                         Logger.shared.log(message: "脑波分析通过", lavel: .Show)
                         self.startContactSignal().then(execute: { () -> () in
 //                            print("start contact singnal \(TestCommand.FixtureToolType.contactSingal.rawValue)")
-                            Logger.shared.log(message: "开始脱落信号", lavel: .Error)
+                            Logger.shared.log(message: "开始脱落信号", lavel: .Show)
                             self.timer = Timer.after(4) {
                                 if !self.hasContactTested {
                                     self.hasContactTested = true
