@@ -142,11 +142,20 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
 
     private var connectDiposeBag: Disposable?
     private var contactValueChangeDisposeBag: Disposable?
+    private var contactSequences = Set<Int>()
     private func contactValueChangeNotify() {
         self.contactValueChangeDisposeBag = self.manager.contactValue.asObservable()
             .observeOn(MainScheduler.asyncInstance)
             .subscribe(onNext: {
-                self.testInfo[1] = String($0)
+                if $0 >= 0 {
+                    self.contactSequences.insert(Int($0))
+                }
+                var string = ""
+                for value in self.contactSequences {
+                    string += String(value) + " "
+                }
+
+                self.testInfo[1] = string
 //                if 0 == $0 {
 //                    self.contactValueChangeDisposeBag?.dispose()
 //                }
@@ -169,11 +178,11 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
         self.manager.connector?.batteryService?.read(characteristic: .battery).then { data in
                 dispatch_to_main {
                     let battery = data.copiedBytes[0]
-                    if battery >= 40 {
+                    if battery >= 70 {
                         self.testInfo[0] = String(format: "%d%%", battery)
                         self.batteryInfo = "通过"
                     } else {
-                        self.testInfo[0] = "当前电量低于 40%，不利于存储"
+                        self.testInfo[0] = "当前电量低于 70%，不利于存储"
                         self.batteryInfo = "不合适"
                     }
                     self.tableView.reloadData()
