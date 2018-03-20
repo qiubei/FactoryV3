@@ -89,8 +89,6 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
                     self.showResult(message: "测试不通过，请注意分类", false)
                     self.tableView.reloadData()
                 case .deleteUserIDPass:
-//                    dispatch_to_main {
-//                    }
                     SVProgressHUD.showInfo(withStatus: "删除 User ID")
                     self.manager.shutdownBoard().then(execute: { () -> () in
                         SVProgressHUD.showInfo(withStatus: "关机成功")

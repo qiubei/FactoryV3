@@ -379,13 +379,14 @@ class TestFlowManager {
     // 监听工装是否断开
     private func listenFixtureToolIsConnected() {
         self.fixtureTool?.rx_isConnected
-            .subscribe { [weak self] in
-                guard let `self` = self else { return }
-                if !$0.element! {
-                    self.state.value = TestFlowState.FixToolAborted
-                    self.cleanUp()
-                }
-            }.disposed(by: _disposeBag)
+            .subscribe(onNext:
+                { [weak self] in
+                    guard let `self` = self else { return }
+                    if !$0 {
+                        self.state.value = TestFlowState.FixToolAborted
+                        self.cleanUp()
+                    }
+            }).disposed(by: _disposeBag)
     }
 
     // 脱落检测测试
