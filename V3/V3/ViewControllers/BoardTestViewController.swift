@@ -17,7 +17,7 @@ class BoardTestViewController: UIViewController, UITableViewDataSource, UITableV
     @IBOutlet weak var resultsLabel: UILabel!
 
     var fixtureToolPeripheral: Peripheral!
-    var manager: TestFlowManager!
+    var manager: BoardTestManager!
     private let boradTestIterms = ["单板和工装连接测试","单板电池充电测试", "单板与 app 连接测试", "前段信号采集和分析测试", "单板脱落信号测试", "右腿信号测试", "LED 灯（红绿蓝）测试"]
     private var testResults =  ["未测试","未测试", "未测试", "未测试", "未测试", "未测试", "未测试"]
     private let _disposeBag = DisposeBag()

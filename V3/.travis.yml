@@ -1,0 +1,11 @@
+oxc_image: xcode9.2
+language: swift
+xcode_workspace: V3.xcworkspace
+cache:
+- cocoapads
+
+before_install:
+- brew udpate --verbose
+- gem install fastlane -v 
+- gem update cocoapods
+

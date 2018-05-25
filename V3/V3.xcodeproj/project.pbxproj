@@ -15,7 +15,7 @@
 		B718DC501FE9FEF900F536F5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B718DC4E1FE9FEF900F536F5 /* LaunchScreen.storyboard */; };
 		B718DC5A1FEA114100F536F5 /* FixtureToolPeriprheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = B718DC591FEA114100F536F5 /* FixtureToolPeriprheral.swift */; };
 		B718DC5C1FEA66BD00F536F5 /* TestedBoardPeripheral .swift in Sources */ = {isa = PBXBuildFile; fileRef = B718DC5B1FEA66BD00F536F5 /* TestedBoardPeripheral .swift */; };
-		B718DC5E1FEA674200F536F5 /* TestFlowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B718DC5D1FEA674200F536F5 /* TestFlowManager.swift */; };
+		B718DC5E1FEA674200F536F5 /* BoardTestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B718DC5D1FEA674200F536F5 /* BoardTestManager.swift */; };
 		B71A8B122010D252000FD002 /* dSYMUpload.sh in Resources */ = {isa = PBXBuildFile; fileRef = B71A8B102010D251000FD002 /* dSYMUpload.sh */; };
 		B71A8B132010D252000FD002 /* buglySymboliOS.jar in Frameworks */ = {isa = PBXBuildFile; fileRef = B71A8B112010D251000FD002 /* buglySymboliOS.jar */; };
 		B72D5F721FED384C00267ECE /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72D5F711FED384C00267ECE /* Logger.swift */; };
@@ -59,7 +59,7 @@
 		B718DC511FE9FEF900F536F5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B718DC591FEA114100F536F5 /* FixtureToolPeriprheral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixtureToolPeriprheral.swift; sourceTree = "<group>"; };
 		B718DC5B1FEA66BD00F536F5 /* TestedBoardPeripheral .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TestedBoardPeripheral .swift"; sourceTree = "<group>"; };
-		B718DC5D1FEA674200F536F5 /* TestFlowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestFlowManager.swift; sourceTree = "<group>"; };
+		B718DC5D1FEA674200F536F5 /* BoardTestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTestManager.swift; sourceTree = "<group>"; };
 		B71A8B0D2010C793000FD002 /* Bridge-header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridge-header.h"; sourceTree = "<group>"; };
 		B71A8B102010D251000FD002 /* dSYMUpload.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = dSYMUpload.sh; sourceTree = "<group>"; };
 		B71A8B112010D251000FD002 /* buglySymboliOS.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; path = buglySymboliOS.jar; sourceTree = "<group>"; };
@@ -165,7 +165,7 @@
 		B718DC581FEA10F700F536F5 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
-				B718DC5D1FEA674200F536F5 /* TestFlowManager.swift */,
+				B718DC5D1FEA674200F536F5 /* BoardTestManager.swift */,
 				B7C61C941FFDCA7900CAE12F /* SystemTestManager.swift */,
 				B718DC591FEA114100F536F5 /* FixtureToolPeriprheral.swift */,
 				B718DC5B1FEA66BD00F536F5 /* TestedBoardPeripheral .swift */,
@@ -424,7 +424,7 @@
 			files = (
 				B76B96261FF48EC8003C2307 /* Preference.swift in Sources */,
 				B718DC451FE9FEF900F536F5 /* BoardSelectedViewController.swift in Sources */,
-				B718DC5E1FEA674200F536F5 /* TestFlowManager.swift in Sources */,
+				B718DC5E1FEA674200F536F5 /* BoardTestManager.swift in Sources */,
 				B718DC5A1FEA114100F536F5 /* FixtureToolPeriprheral.swift in Sources */,
 				B76B96291FF4961A003C2307 /* DeviceInfo.swift in Sources */,
 				B7C61C911FFCDA7400CAE12F /* HomeViewController.swift in Sources */,

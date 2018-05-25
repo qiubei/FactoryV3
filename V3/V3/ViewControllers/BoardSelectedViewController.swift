@@ -16,7 +16,7 @@ class BoardSelectedViewController: UIViewController, UITableViewDataSource, UITa
     @IBOutlet weak var startButton: UIButton!
 
     private var peripherals = [Peripheral]()
-    private let manager = TestFlowManager()
+    private let manager = BoardTestManager()
     private let _disposeBag = DisposeBag()
 
 

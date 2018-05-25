@@ -18,7 +18,7 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
     var peripheral: Peripheral!
     private let manager = SystemTestManager.shared
     private let _disposeBag = DisposeBag()
-    private let items = ["电池信息", "脱落检测", "烧入 device ID"]
+    private let items = ["电池信息", "脱落检测"]
     private var batteryInfo = "未检测"
     private var contactInfo = "未检测"
     private var burnDeviceIDInfo = "未检测"
@@ -176,11 +176,11 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
         self.manager.connector?.batteryService?.read(characteristic: .battery).then { data in
                 dispatch_to_main {
                     let battery = data.copiedBytes[0]
-                    if battery >= 70 {
+                    if battery >= 60 {
                         self.testInfo[0] = String(format: "%d%%", battery)
                         self.batteryInfo = "通过"
                     } else {
-                        self.testInfo[0] = "当前电量低于 70%，不利于存储"
+                        self.testInfo[0] = "当前电量 \(battery)% 低于 70%，不利于存储"
                         self.batteryInfo = "不合适"
                     }
                     self.tableView.reloadData()

@@ -38,7 +38,7 @@ public enum TestFlowState: String {
 }
 
 
-class TestFlowManager {
+class BoardTestManager {
     private let toolManager: BluetoothManager
 
     public var state: Variable<TestFlowState>
@@ -342,7 +342,7 @@ class TestFlowManager {
                         self.startContactSignal().then(execute: { () -> () in
 //                            print("start contact singnal \(TestCommand.FixtureToolType.contactSingal.rawValue)")
                             Logger.shared.log(message: "开始脱落信号", lavel: .Show)
-                            self.timer = Timer.after(4) {
+                            self.timer = Timer.after(1.0) {
                                 if !self.hasContactTested {
                                     self.hasContactTested = true
                                     // 使用 dispatch_after 有风险，block 执行不是在当前队列延迟操作的。
