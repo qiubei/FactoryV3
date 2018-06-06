@@ -17,7 +17,6 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
 
     var peripheral: Peripheral!
     private let manager = SystemTestManager.shared
-    private let _disposeBag = DisposeBag()
     private let items = ["电池信息", "脱落检测"]
     private var batteryInfo = "未检测"
     private var contactInfo = "未检测"
@@ -46,16 +45,20 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
     }
 
     override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(true)
-        if self.navigationController?.viewControllers.count == 2 {
+        super.viewDidDisappear(animated)
+        if let flag = self.manager.connector?.peripheral.isConnected, !flag {
             self.manager.stopTest()
+            self.disposable?.dispose()
+            self.contactValueChangeDisposeBag?.dispose()
+            self.connectDiposeBag?.dispose()
         }
     }
 
     private var hasAppConfigurationSuccessed = false
+    private var disposable: Disposable?
     // MARK: private
     private func stateNotify() {
-        self.manager.state.asObservable()
+        self.disposable = self.manager.state.asObservable()
             .observeOn(MainScheduler.asyncInstance)
             .subscribe(onNext: {
                 let type = $0
@@ -90,6 +93,7 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
                     self.tableView.reloadData()
                 case .deleteUserIDPass:
                     SVProgressHUD.showInfo(withStatus: "删除 User ID")
+                    print("----删除 User------")
                     self.manager.shutdownBoard().then(execute: { () -> () in
                         SVProgressHUD.showInfo(withStatus: "关机成功")
                         self.manager.stopTest()
@@ -105,7 +109,7 @@ class SystemTestViewController: UIViewController, UITableViewDataSource, UITable
                 default: break
                 }
                 self.tableView.reloadData()
-            }).disposed(by: self._disposeBag)
+            })
     }
 
     private func showResult(message: String,_ flag: Bool) {
