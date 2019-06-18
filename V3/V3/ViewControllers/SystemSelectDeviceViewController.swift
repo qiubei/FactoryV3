@@ -46,7 +46,7 @@ class SystemSelectDeviceViewController: UIViewController, UITableViewDataSource,
             .subscribe(onNext: { [weak self] in
                 guard let `self` = self else { return }
 
-                if let name = $0.peripheral.name, name.contains("易休") || name.contains("Luuna") || name.contains("Nap") {
+                if let name = $0.peripheral.name, name.count > 0 {
                     self.scanedPeripherals.append($0)
                     self.devices.append($0.peripheral)
                     self.devicesRssi.append($0.rssi.stringValue)
